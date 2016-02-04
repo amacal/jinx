@@ -64,6 +64,9 @@
     <EmbeddedResource Include="Resources\amazon\news-article\original-data-schema.json" />
     <EmbeddedResource Include="Resources\amazon\employee-record\original-data-sample.json" />
     <EmbeddedResource Include="Resources\amazon\employee-record\original-data-schema.json" />
+    <EmbeddedResource Include="Resources\json-schema\example-sample.json" />
+    <EmbeddedResource Include="Resources\json-schema\example-schema.json" />
+    <EmbeddedResource Include="Resources\json-schema\self.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jinx\Jinx.csproj">
