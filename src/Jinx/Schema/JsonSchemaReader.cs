@@ -51,8 +51,12 @@ namespace Jinx.Schema
         {
             JsonSchemaRule result = null;
             JsonObjectRule objectRule = new JsonObjectRule();
+
             JsonObject properties = objekt.Get("properties") as JsonObject;
+            JsonObject patterns = objekt.Get("patternProperties") as JsonObject;
+
             JsonArray required = objekt.Get("required") as JsonArray;
+            JsonValue additional = objekt.Get("additionalProperties");
 
             JsonAllRule allOfRule;
             JsonArray allOf = objekt.Get("allOf") as JsonArray;
@@ -65,12 +69,30 @@ namespace Jinx.Schema
                 }
             }
 
+            if (patterns != null)
+            {
+                foreach (string property in patterns.GetKeys())
+                {
+                    objectRule.AddPattern(property, ParseSchema(patterns.Get(property)));
+                }
+            }
+
             if (required != null)
             {
                 foreach (JsonText text in required.Items().OfType<JsonText>())
                 {
                     objectRule.AddRequired(text.Value);
                 }
+            }
+
+            if (additional is JsonTrue)
+            {
+                objectRule.SetAdditional(true);
+            }
+
+            if (additional is JsonFalse)
+            {
+                objectRule.SetAdditional(false);
             }
 
             if (allOf != null)

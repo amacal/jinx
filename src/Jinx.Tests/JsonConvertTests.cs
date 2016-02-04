@@ -9,27 +9,10 @@ namespace Jinx.Tests
 {
     public class JsonConvertTests
     {
-        [Fact]
-        public void ParseResourceToJsonDocument()
-        {
-            using (TextReader reader = OpenReader("flickr.json"))
-            {
-                Assert.NotNull(JsonConvert.GetDocument(reader));
-            }
-        }
-
-        [Fact]
-        public void ParseResourceToJsonSchema()
-        {
-            using (TextReader reader = OpenReader("appaloosa.application-upload-schema.json"))
-            {
-                Assert.NotNull(JsonConvert.GetSchema(reader));
-            }
-        }
-
         [Theory]
         [MemberData("Amazon")]
         [MemberData("Appaloosa")]
+        [MemberData("JsonSchema")]
         public void ValidateDocumentAgainstSchema(string schemaPath, string documentPath)
         {
             using (TextReader schemaReader = OpenReader(schemaPath))
@@ -50,6 +33,24 @@ namespace Jinx.Tests
                 {
                     "appaloosa.application-upload-schema.json",
                     "appaloosa.application-upload-sample.json"
+                };
+            }
+        }
+
+        public static IEnumerable<object[]> JsonSchema
+        {
+            get
+            {
+                yield return new string[]
+                {
+                    "json_schema.example-schema.json",
+                    "json_schema.example-sample.json"
+                };
+
+                yield return new string[]
+                {
+                    "json_schema.self.json",
+                    "json_schema.self.json"
                 };
             }
         }
