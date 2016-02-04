@@ -1,0 +1,13 @@
+﻿{
+  "application": {
+    "binary_path": "http://www.application.io/application.ipa",
+    "screenshot1": "http://www.application.io/screenshot1.png",
+    "screenshot2": "http://www.application.io/screenshot2.png",
+    "screenshot3": "http://www.application.io/screenshot3.png",
+    "screenshot4": "http://www.application.io/screenshot4.png",
+    "screenshot5": "http://www.application.io/screenshot5.png",
+    "banner": "http://www.application.io/banner.png",
+    "description": "Never miss a deal",
+    "catchphrase": "The best app"
+  }
+}

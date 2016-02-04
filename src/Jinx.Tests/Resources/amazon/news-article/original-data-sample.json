@@ -1,0 +1,26 @@
+﻿{
+  "count": 1,
+  "items": [
+    {
+      "last_updated_date": "2015-04-24",
+      "expire_date": "2016-04-25",
+      "author_first_name": "John",
+      "description": "Sample Description",
+      "creation_date": "2015-04-20",
+      "title": "Sample Title",
+      "allow_comment": "1",
+      "author": {
+        "last_name": "Doe",
+        "email": "johndoe@example.com",
+        "first_name": "John"
+      },
+      "body": "Sample Body",
+      "publish_date": "2015-04-25",
+      "version": "1",
+      "author_last_name": "Doe",
+      "parent_id": 2345678901,
+      "article_url": "http://www.example.com/articles/3456789012"
+    }
+  ],
+  "version": 1
+}

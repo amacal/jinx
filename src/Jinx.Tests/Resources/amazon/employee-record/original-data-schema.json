@@ -1,0 +1,60 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "EmployeeInputModel",
+  "type": "object",
+  "properties": {
+    "QueryResponse": {
+      "type": "object",
+      "properties": {
+        "maxResults": { "type": "string" },
+        "startPosition": { "type": "string" },
+        "Employee": {
+          "type": "object",
+          "properties": {
+            "Organization": { "type": "string" },
+            "Title": { "type": "string" },
+            "GivenName": { "type": "string" },
+            "MiddleName": { "type": "string" },
+            "FamilyName": { "type": "string" },
+            "DisplayName": { "type": "string" },
+            "PrintOnCheckName": { "type": "string" },
+            "Active": { "type": "string" },
+            "PrimaryPhone": {
+              "type": "object",
+              "properties": {
+                "FreeFormNumber": { "type": "string" }
+              }
+            },
+            "PrimaryEmailAddr": {
+              "type": "object",
+              "properties": {
+                "Address": { "type": "string" }
+              }
+            },
+            "EmployeeType": { "type": "string" },
+            "status": { "type": "string" },
+            "Id": { "type": "string" },
+            "SyncToken": { "type": "string" },
+            "MetaData": {
+              "type": "object",
+              "properties": {
+                "CreateTime": { "type": "string" },
+                "LastUpdatedTime": { "type": "string" }
+              }
+            },
+            "PrimaryAddr": {
+              "type": "object",
+              "properties": {
+                "Line1": { "type": "string" },
+                "City": { "type": "string" },
+                "CountrySubDivisionCode": { "type": "string" },
+                "PostalCode": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "time": { "type": "string" }
+  }
+}

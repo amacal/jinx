@@ -1,0 +1,50 @@
+﻿{
+  "type": "object",
+  "properties": {
+    "application": {
+      "type": "object",
+      "properties": {
+        "binary_path": {
+          "type": "string",
+          "description": "Application's binary url"
+        },
+        "screenshot1": {
+          "type": "string",
+          "description": "Application's screenshot 1 url"
+        },
+        "screenshot2": {
+          "type": "string",
+          "description": "Application's screenshot 2 url"
+        },
+        "screenshot3": {
+          "type": "string",
+          "description": "Application's screenshot 3 url"
+        },
+        "screenshot4": {
+          "type": "string",
+          "description": "Application's screenshot 4 url"
+        },
+        "screenshot5": {
+          "type": "string",
+          "description": "Application's screenshot 5 url"
+        },
+        "banner": {
+          "type": "string",
+          "description": "Application's banner url"
+        },
+        "description": {
+          "type": "string",
+          "description": "Application's description"
+        },
+        "catchphrase": {
+          "type": "string",
+          "description": "Application's catchphrase"
+        }
+      },
+      "required": [
+        "binary_path"
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-04/schema#"
+}

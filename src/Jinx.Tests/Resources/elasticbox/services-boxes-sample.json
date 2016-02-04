@@ -1,0 +1,17 @@
+﻿{
+    "automatic_updates": "off",
+	"organization": "Google",
+    "requirements": [
+        "docker"
+    ],
+    "name": "Docker RabbitMQ",
+	"dockerfile": {
+        "url": "/services/blobs/download/54feda7093abba06c7591422/Dockerfile",
+        "upload_date": "2015-03-10 11:50:07.960399",
+        "length": 30,
+        "content_type": "text/x-shellscript"
+    },
+	"deleted": null,
+	"visibility": "public",
+    "schema": "http://elasticbox.net/schemas/boxes/docker"
+}

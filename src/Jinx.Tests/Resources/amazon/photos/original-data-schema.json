@@ -1,0 +1,33 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "PhotosInputModel",
+  "type": "object",
+  "properties": {
+    "photos": {
+      "type": "object",
+      "properties": {
+        "page": { "type": "integer" },
+        "pages": { "type": "string" },
+        "perpage": { "type": "integer" },
+        "total": { "type": "string" },
+        "photo": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "owner": { "type": "string" },
+              "secret": { "type": "string" },
+              "server": { "type": "string" },
+              "farm": { "type": "integer" },
+              "title": { "type": "string" },
+              "ispublic": { "type": "integer" },
+              "isfriend": { "type": "integer" },
+              "isfamily": { "type": "integer" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
