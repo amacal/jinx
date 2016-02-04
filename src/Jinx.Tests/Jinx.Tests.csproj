@@ -54,11 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <EmbeddedResource Include="Resources\flickr.json" />
     <EmbeddedResource Include="Resources\appaloosa\application-upload-schema.json" />
     <EmbeddedResource Include="Resources\appaloosa\application-upload-sample.json" />
-    <EmbeddedResource Include="Resources\elasticbox\services-boxes-schema.json" />
-    <EmbeddedResource Include="Resources\elasticbox\services-boxes-sample.json" />
     <EmbeddedResource Include="Resources\amazon\sales-invoice\original-data-sample.json" />
     <EmbeddedResource Include="Resources\amazon\sales-invoice\original-data-schema.json" />
     <EmbeddedResource Include="Resources\amazon\photos\original-data-sample.json" />

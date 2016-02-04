@@ -29,6 +29,7 @@ namespace Jinx.Tests
 
         [Theory]
         [MemberData("Amazon")]
+        [MemberData("Appaloosa")]
         public void ValidateDocumentAgainstSchema(string schemaPath, string documentPath)
         {
             using (TextReader schemaReader = OpenReader(schemaPath))
@@ -38,6 +39,18 @@ namespace Jinx.Tests
                 JsonDocument document = JsonConvert.GetDocument(documentReader);
 
                 Assert.True(schema.IsValid(document));
+            }
+        }
+
+        public static IEnumerable<object[]> Appaloosa
+        {
+            get
+            {
+                yield return new string[]
+                {
+                    "appaloosa.application-upload-schema.json",
+                    "appaloosa.application-upload-sample.json"
+                };
             }
         }
 
