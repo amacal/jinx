@@ -265,6 +265,11 @@ namespace Jinx.Reader
 
             while (buffer.Data[buffer.Offset] != '"')
             {
+                if (buffer.Data[buffer.Offset] == '\\')
+                {
+                    buffer.Forward(true);
+                }
+
                 buffer.Forward(true);
                 length++;
             }

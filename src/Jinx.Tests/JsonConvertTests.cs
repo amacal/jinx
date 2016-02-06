@@ -11,6 +11,7 @@ namespace Jinx.Tests
         [Theory]
         [MemberData("Amazon")]
         [MemberData("Appaloosa")]
+        [MemberData("Bel")]
         [MemberData("JsonSchema")]
         public void ValidateDocumentAgainstSchema(string schemaPath, string documentPath)
         {
@@ -32,6 +33,18 @@ namespace Jinx.Tests
                 {
                     "appaloosa.application-upload-schema.json",
                     "appaloosa.application-upload-sample.json"
+                };
+            }
+        }
+
+        public static IEnumerable<object[]> Bel
+        {
+            get
+            {
+                yield return new string[]
+                {
+                    "bel.test-network-schema.json",
+                    "bel.test-network-sample.json"
                 };
             }
         }

@@ -68,6 +68,9 @@ namespace Jinx.Dom
                     case JsonTokenType.EndObject:
                         callback.Invoke(objekt);
                         return;
+
+                    default:
+                        break;
                 }
             }
         }
@@ -126,6 +129,9 @@ namespace Jinx.Dom
 
                 case JsonTokenType.Null:
                     callback.Invoke(new JsonNull());
+                    break;
+
+                default:
                     break;
             }
         }
