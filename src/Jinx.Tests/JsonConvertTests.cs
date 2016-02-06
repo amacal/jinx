@@ -3,7 +3,6 @@ using Jinx.Schema;
 using System.Collections.Generic;
 using System.IO;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Jinx.Tests
 {

@@ -7,6 +7,11 @@
         private readonly int offset;
         private readonly int length;
 
+        public JsonToken(JsonTokenType type)
+        {
+            this.type = type;
+        }
+
         public JsonToken(JsonTokenType type, char[] data, int offset, int length)
         {
             this.type = type;

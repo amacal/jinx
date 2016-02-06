@@ -19,9 +19,9 @@ namespace Jinx.Reader
 
             this.buffer = new JsonReaderBuffer
             {
-                Size = 20480,
+                Size = 1024,
                 Stream = stream,
-                Data = new char[20480]
+                Data = new char[1024]
             };
         }
 
@@ -64,7 +64,7 @@ namespace Jinx.Reader
 
         private bool ReadArrayOrObject()
         {
-            buffer.Ensure();
+            buffer.Ensure(false);
             SkipWhiteSpaces();
 
             switch (buffer.Data[buffer.Offset])
@@ -72,15 +72,15 @@ namespace Jinx.Reader
                 case '{':
                     stack.Push(JsonReaderState.Final);
                     state = JsonReaderState.BeginObject;
-                    token = new JsonToken(JsonTokenType.OpenObject, buffer.Data, buffer.Offset, 1);
-                    buffer.Forward();
+                    token = new JsonToken(JsonTokenType.OpenObject);
+                    buffer.Forward(false);
                     return true;
 
                 case '[':
                     stack.Push(JsonReaderState.Final);
                     state = JsonReaderState.BeginArray;
-                    token = new JsonToken(JsonTokenType.OpenArray, buffer.Data, buffer.Offset, 1);
-                    buffer.Forward();
+                    token = new JsonToken(JsonTokenType.OpenArray);
+                    buffer.Forward(false);
                     return true;
             }
 
@@ -90,15 +90,15 @@ namespace Jinx.Reader
 
         private bool ReadPropertyOrEndObject()
         {
-            buffer.Ensure();
+            buffer.Ensure(false);
             SkipWhiteSpaces();
 
             switch (buffer.Data[buffer.Offset])
             {
                 case '}':
                     state = stack.Pop();
-                    token = new JsonToken(JsonTokenType.EndObject, buffer.Data, buffer.Offset, 1);
-                    buffer.Forward();
+                    token = new JsonToken(JsonTokenType.EndObject);
+                    buffer.Forward(false);
                     return true;
 
                 case '"':
@@ -111,15 +111,15 @@ namespace Jinx.Reader
 
         private bool ReadValueOrEndArray()
         {
-            buffer.Ensure();
+            buffer.Ensure(false);
             SkipWhiteSpaces();
 
             switch (buffer.Data[buffer.Offset])
             {
                 case ']':
                     state = stack.Pop();
-                    token = new JsonToken(JsonTokenType.EndArray, buffer.Data, buffer.Offset, 1);
-                    buffer.Forward();
+                    token = new JsonToken(JsonTokenType.EndArray);
+                    buffer.Forward(false);
                     return true;
             }
 
@@ -128,7 +128,7 @@ namespace Jinx.Reader
 
         private bool ReadPropertySeparatorAndValue()
         {
-            buffer.Ensure();
+            buffer.Ensure(false);
             SkipWhiteSpaces();
 
             if (buffer.Data[buffer.Offset] != ':')
@@ -137,7 +137,7 @@ namespace Jinx.Reader
                 return false;
             }
 
-            buffer.Forward();
+            buffer.Forward(false);
             SkipWhiteSpaces();
 
             return ReadValue(JsonReaderState.ValueInObject);
@@ -145,15 +145,15 @@ namespace Jinx.Reader
 
         private bool ReadItemSeparatorAndPropertyOrEndObject()
         {
-            buffer.Ensure();
+            buffer.Ensure(false);
             SkipWhiteSpaces();
 
             switch (buffer.Data[buffer.Offset])
             {
                 case '}':
                     state = stack.Pop();
-                    token = new JsonToken(JsonTokenType.EndObject, buffer.Data, buffer.Offset, 1);
-                    buffer.Forward();
+                    token = new JsonToken(JsonTokenType.EndObject);
+                    buffer.Forward(false);
                     return true;
 
                 case ',':
@@ -165,15 +165,15 @@ namespace Jinx.Reader
 
         private bool ReadItemSeparatorAndValueOrEndArray()
         {
-            buffer.Ensure();
+            buffer.Ensure(false);
             SkipWhiteSpaces();
 
             switch (buffer.Data[buffer.Offset])
             {
                 case ']':
                     state = stack.Pop();
-                    token = new JsonToken(JsonTokenType.EndArray, buffer.Data, buffer.Offset, 1);
-                    buffer.Forward();
+                    token = new JsonToken(JsonTokenType.EndArray);
+                    buffer.Forward(false);
                     return true;
 
                 case ',':
@@ -185,7 +185,7 @@ namespace Jinx.Reader
 
         private bool ReadItemSeparatorAndProperty()
         {
-            buffer.Forward();
+            buffer.Forward(false);
             SkipWhiteSpaces();
 
             if (buffer.Data[buffer.Offset] != '"')
@@ -196,7 +196,7 @@ namespace Jinx.Reader
 
         private bool ReadItemSeparatorAndValue()
         {
-            buffer.Forward();
+            buffer.Forward(false);
             SkipWhiteSpaces();
 
             return ReadValue(JsonReaderState.ValueInArray);
@@ -209,15 +209,15 @@ namespace Jinx.Reader
                 case '{':
                     stack.Push(nextState);
                     state = JsonReaderState.BeginObject;
-                    token = new JsonToken(JsonTokenType.OpenObject, buffer.Data, buffer.Offset, 1);
-                    buffer.Forward();
+                    token = new JsonToken(JsonTokenType.OpenObject);
+                    buffer.Forward(false);
                     return true;
 
                 case '[':
                     stack.Push(nextState);
                     state = JsonReaderState.BeginArray;
-                    token = new JsonToken(JsonTokenType.OpenArray, buffer.Data, buffer.Offset, 1);
-                    buffer.Forward();
+                    token = new JsonToken(JsonTokenType.OpenArray);
+                    buffer.Forward(false);
                     return true;
 
                 case '"':
@@ -241,15 +241,15 @@ namespace Jinx.Reader
             int start = buffer.Offset + 1;
             int length = 0;
 
-            buffer.Forward();
+            buffer.Forward(true);
 
             while (buffer.Data[buffer.Offset] != '"')
             {
-                buffer.Forward();
+                buffer.Forward(true);
                 length++;
             }
 
-            buffer.Forward();
+            buffer.Forward(true);
 
             state = JsonReaderState.Property;
             token = new JsonToken(JsonTokenType.Property, buffer.Data, start, length);
@@ -261,15 +261,15 @@ namespace Jinx.Reader
             int start = buffer.Offset + 1;
             int length = 0;
 
-            buffer.Forward();
+            buffer.Forward(true);
 
             while (buffer.Data[buffer.Offset] != '"')
             {
-                buffer.Forward();
+                buffer.Forward(true);
                 length++;
             }
 
-            buffer.Forward();
+            buffer.Forward(true);
 
             state = nextState;
             token = new JsonToken(JsonTokenType.Text, buffer.Data, start, length);
@@ -288,7 +288,7 @@ namespace Jinx.Reader
 
             while (isAcceptable.Invoke(buffer.Data[buffer.Offset]))
             {
-                buffer.Forward();
+                buffer.Forward(true);
                 length++;
             }
 
@@ -305,7 +305,7 @@ namespace Jinx.Reader
             if (Skip("true"))
             {
                 state = nextState;
-                token = new JsonToken(JsonTokenType.True, buffer.Data, buffer.Offset - 4, 4);
+                token = new JsonToken(JsonTokenType.True);
                 return true;
             }
 
@@ -318,7 +318,7 @@ namespace Jinx.Reader
             if (Skip("false"))
             {
                 state = nextState;
-                token = new JsonToken(JsonTokenType.False, buffer.Data, buffer.Offset - 5, 5);
+                token = new JsonToken(JsonTokenType.False);
                 return true;
             }
 
@@ -331,7 +331,7 @@ namespace Jinx.Reader
             if (Skip("null"))
             {
                 state = nextState;
-                token = new JsonToken(JsonTokenType.Null, buffer.Data, buffer.Offset - 4, 4);
+                token = new JsonToken(JsonTokenType.Null);
                 return true;
             }
 
@@ -343,7 +343,7 @@ namespace Jinx.Reader
         {
             while (Char.IsWhiteSpace(buffer.Data[buffer.Offset]))
             {
-                buffer.Forward();
+                buffer.Forward(false);
             }
         }
 
@@ -354,7 +354,7 @@ namespace Jinx.Reader
                 if (buffer.Data[buffer.Offset] != character)
                     return false;
 
-                buffer.Forward();
+                buffer.Forward(false);
             }
 
             return true;

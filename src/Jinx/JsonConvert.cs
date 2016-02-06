@@ -15,12 +15,36 @@ namespace Jinx
             return documentReader.Load();
         }
 
+        public static JsonDocument GetDocument(Stream stream)
+        {
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                return GetDocument(reader);
+            }
+        }
+
+        public static JsonDocument GetDocument(string path)
+        {
+            using (StreamReader reader = new StreamReader(path))
+            {
+                return GetDocument(reader);
+            }
+        }
+
         public static JsonSchema GetSchema(TextReader reader)
         {
             var document = GetDocument(reader);
             var schemaReader = new JsonSchemaReader(document);
 
             return schemaReader.Load();
+        }
+
+        public static JsonSchema GetSchema(string path)
+        {
+            using (StreamReader reader = new StreamReader(path))
+            {
+                return GetSchema(reader);
+            }
         }
     }
 }
