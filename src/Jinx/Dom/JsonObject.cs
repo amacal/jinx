@@ -16,6 +16,11 @@ namespace Jinx.Dom
             items[name] = value;
         }
 
+        public int Count
+        {
+            get { return items.Count; }
+        }
+
         public bool Contains(string name)
         {
             return items.ContainsKey(name);

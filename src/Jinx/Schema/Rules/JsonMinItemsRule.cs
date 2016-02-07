@@ -4,11 +4,11 @@ namespace Jinx.Schema.Rules
 {
     public class JsonMinItemsRule : JsonSchemaRule
     {
-        private readonly int threashold;
+        private readonly int minItems;
 
-        public JsonMinItemsRule(int threashold)
+        public JsonMinItemsRule(int minItems)
         {
-            this.threashold = threashold;
+            this.minItems = minItems;
         }
 
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value)
@@ -18,7 +18,7 @@ namespace Jinx.Schema.Rules
             if (target == null)
                 return true;
 
-            if (threashold > target.Count)
+            if (minItems > target.Count)
                 return false;
 
             return true;

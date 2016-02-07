@@ -1,5 +1,6 @@
 ﻿using Jinx.Dom;
 using Jinx.Schema.Rules;
+using System;
 using System.Collections.Generic;
 
 namespace Jinx.Schema
@@ -89,6 +90,72 @@ namespace Jinx.Schema
             }
         }
 
+        private void AddMaxItemsRule(CombinedRule rules, JsonObject definition)
+        {
+            if (definition.Contains<JsonNumber>("maxItems"))
+            {
+                JsonNumber maxItems = definition.Get<JsonNumber>("maxItems");
+                JsonMaxItemsRule rule = new JsonMaxItemsRule(Int32.Parse(maxItems.Value));
+
+                rules.Add(rule);
+            }
+        }
+
+        private void AddMaxLengthRule(CombinedRule rules, JsonObject definition)
+        {
+            if (definition.Contains<JsonNumber>("maxLength"))
+            {
+                JsonNumber maxLength = definition.Get<JsonNumber>("maxLength");
+                JsonMaxLengthRule rule = new JsonMaxLengthRule(Int32.Parse(maxLength.Value));
+
+                rules.Add(rule);
+            }
+        }
+
+        private void AddMaxPropertiesRule(CombinedRule rules, JsonObject definition)
+        {
+            if (definition.Contains<JsonNumber>("maxProperties"))
+            {
+                JsonNumber maxProperties = definition.Get<JsonNumber>("maxProperties");
+                JsonMaxPropertiesRule rule = new JsonMaxPropertiesRule(Int32.Parse(maxProperties.Value));
+
+                rules.Add(rule);
+            }
+        }
+
+        private void AddMinItemsRule(CombinedRule rules, JsonObject definition)
+        {
+            if (definition.Contains<JsonNumber>("minItems"))
+            {
+                JsonNumber minItems = definition.Get<JsonNumber>("minItems");
+                JsonMinItemsRule rule = new JsonMinItemsRule(Int32.Parse(minItems.Value));
+
+                rules.Add(rule);
+            }
+        }
+
+        private void AddMinLengthRule(CombinedRule rules, JsonObject definition)
+        {
+            if (definition.Contains<JsonNumber>("minLength"))
+            {
+                JsonNumber minLength = definition.Get<JsonNumber>("minLength");
+                JsonMinLengthRule rule = new JsonMinLengthRule(Int32.Parse(minLength.Value));
+
+                rules.Add(rule);
+            }
+        }
+
+        private void AddMinPropertiesRule(CombinedRule rules, JsonObject definition)
+        {
+            if (definition.Contains<JsonNumber>("minProperties"))
+            {
+                JsonNumber minProperties = definition.Get<JsonNumber>("minProperties");
+                JsonMinPropertiesRule rule = new JsonMinPropertiesRule(Int32.Parse(minProperties.Value));
+
+                rules.Add(rule);
+            }
+        }
+
         private void AddOneOfRule(CombinedRule rules, JsonObject definition)
         {
             if (definition.Contains<JsonArray>("oneOf"))
@@ -103,6 +170,20 @@ namespace Jinx.Schema
             }
         }
 
+        private void AddPatternPropertiesRule(CombinedRule rules, JsonObject definition)
+        {
+            if (definition.Contains<JsonObject>("patternProperties"))
+            {
+                JsonObject patterns = definition.Get<JsonObject>("patternProperties");
+                JsonPatternPropertiesRule rule = new JsonPatternPropertiesRule();
+
+                foreach (string pattern in patterns.GetKeys())
+                    rule.AddPattern(pattern, Parse(patterns.Get<JsonObject>(pattern)));
+
+                rules.Add(rule);
+            }
+        }
+
         private void AddPropertiesRule(CombinedRule rules, JsonObject definition)
         {
             if (definition.Contains<JsonObject>("properties"))
@@ -111,7 +192,7 @@ namespace Jinx.Schema
                 JsonPropertiesRule rule = new JsonPropertiesRule();
 
                 foreach (string property in properties.GetKeys())
-                    rule.Add(property, Parse(properties.Get<JsonObject>(property)));
+                    rule.AddProperty(property, Parse(properties.Get<JsonObject>(property)));
 
                 rules.Add(rule);
             }
@@ -163,7 +244,14 @@ namespace Jinx.Schema
             AddAllOfRule(combined, definition);
             AddAnyOfRule(combined, definition);
             AddItemsRule(combined, definition);
+            AddMaxItemsRule(combined, definition);
+            AddMaxLengthRule(combined, definition);
+            AddMaxPropertiesRule(combined, definition);
+            AddMinItemsRule(combined, definition);
+            AddMinLengthRule(combined, definition);
+            AddMinPropertiesRule(combined, definition);
             AddOneOfRule(combined, definition);
+            AddPatternPropertiesRule(combined, definition);
             AddPropertiesRule(combined, definition);
             AddRefRule(combined, definition);
             AddRequiredRule(combined, definition);

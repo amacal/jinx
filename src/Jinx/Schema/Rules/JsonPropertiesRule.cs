@@ -12,7 +12,7 @@ namespace Jinx.Schema.Rules
             this.items = new Dictionary<string, JsonSchemaRule>();
         }
 
-        public void Add(string property, JsonSchemaRule rule)
+        public void AddProperty(string property, JsonSchemaRule rule)
         {
             items[property] = rule;
         }
