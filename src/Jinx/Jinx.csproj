@@ -58,8 +58,10 @@
     <Compile Include="Schema\JsonNumberRule.cs" />
     <Compile Include="Schema\JsonObjectRule.cs" />
     <Compile Include="Schema\JsonOneOfRule.cs" />
+    <Compile Include="Schema\JsonReferenceRule.cs" />
     <Compile Include="Schema\JsonSchema.cs" />
     <Compile Include="Schema\JsonSchemaDefinitions.cs" />
+    <Compile Include="Schema\JsonSchemaParser.cs" />
     <Compile Include="Schema\JsonSchemaReader.cs" />
     <Compile Include="Schema\JsonSchemaRule.cs" />
     <Compile Include="Schema\JsonTextRule.cs" />

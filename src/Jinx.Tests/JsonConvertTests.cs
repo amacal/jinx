@@ -21,7 +21,7 @@ namespace Jinx.Tests
                 JsonSchema schema = JsonConvert.GetSchema(schemaReader);
                 JsonDocument document = JsonConvert.GetDocument(documentReader);
 
-                Assert.True(schema.IsValid(document));
+                Assert.True(schema.IsValid(document.Root));
             }
         }
 

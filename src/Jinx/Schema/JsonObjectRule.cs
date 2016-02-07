@@ -41,11 +41,12 @@ namespace Jinx.Schema
 
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value)
         {
-            List<string> matched = new List<string>(properties.Keys);
             JsonObject objekt = value as JsonObject;
 
             if (objekt == null)
                 return false;
+
+            List<string> left = new List<string>(objekt.GetKeys());
 
             foreach (string property in properties.Keys)
             {
@@ -56,7 +57,7 @@ namespace Jinx.Schema
                     return false;
 
                 if (target != null)
-                    matched.Remove(property);
+                    left.Remove(property);
             }
 
             foreach (string property in objekt.GetKeys())
@@ -76,7 +77,7 @@ namespace Jinx.Schema
 
                 if (match != null && rule != null)
                 {
-                    matched.Remove(property);
+                    left.Remove(property);
                 }
             }
 
@@ -88,7 +89,7 @@ namespace Jinx.Schema
                     return false;
             }
 
-            if (additional == false && matched.Count > 0)
+            if (additional == false && left.Count > 0)
                 return false;
 
             return true;

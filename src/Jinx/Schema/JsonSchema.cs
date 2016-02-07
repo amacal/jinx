@@ -7,15 +7,15 @@ namespace Jinx.Schema
         private readonly JsonSchemaRule rule;
         private readonly JsonSchemaDefinitions definitions;
 
-        public JsonSchema(JsonSchemaRule rule)
+        public JsonSchema(JsonSchemaRule rule, JsonSchemaDefinitions definitions)
         {
             this.rule = rule;
-            this.definitions = new JsonSchemaDefinitions();
+            this.definitions = definitions;
         }
 
-        public bool IsValid(JsonDocument document)
+        public bool IsValid(JsonValue value)
         {
-            return rule.IsValid(definitions, document.Root);
+            return rule.IsValid(definitions, value);
         }
     }
 }
