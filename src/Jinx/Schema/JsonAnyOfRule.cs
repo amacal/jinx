@@ -3,15 +3,18 @@ using System.Collections.Generic;
 
 namespace Jinx.Schema
 {
-    public class JsonAllRule : JsonSchemaRule
+    public class JsonAnyOfRule : JsonSchemaRule
     {
-        private readonly JsonSchemaRule root;
         private readonly List<JsonSchemaRule> items;
 
-        public JsonAllRule(JsonSchemaRule root)
+        public JsonAnyOfRule()
         {
-            this.root = root;
             this.items = new List<JsonSchemaRule>();
+        }
+
+        public JsonAnyOfRule(IEnumerable<JsonSchemaRule> items)
+        {
+            this.items = new List<JsonSchemaRule>(items);
         }
 
         public void Add(JsonSchemaRule item)
@@ -21,14 +24,11 @@ namespace Jinx.Schema
 
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value)
         {
-            if (root.IsValid(definitions, value) == false)
-                return false;
-
             foreach (JsonSchemaRule rule in items)
-                if (rule.IsValid(definitions, value) == false)
-                    return false;
+                if (rule.IsValid(definitions, value))
+                    return true;
 
-            return true;
+            return false;
         }
     }
 }

@@ -55,7 +55,8 @@ namespace Jinx.Schema
                 if (target != null && rule.IsValid(definitions, target) == false)
                     return false;
 
-                matched.Remove(property);
+                if (target != null)
+                    matched.Remove(property);
             }
 
             foreach (string property in objekt.GetKeys())

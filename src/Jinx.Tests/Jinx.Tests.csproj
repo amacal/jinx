@@ -67,6 +67,8 @@
     <EmbeddedResource Include="Resources\json-schema\example-sample.json" />
     <EmbeddedResource Include="Resources\json-schema\example-schema.json" />
     <EmbeddedResource Include="Resources\json-schema\self.json" />
+    <EmbeddedResource Include="Resources\bel\test-network-sample.json" />
+    <EmbeddedResource Include="Resources\bel\test-network-schema.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jinx\Jinx.csproj">
