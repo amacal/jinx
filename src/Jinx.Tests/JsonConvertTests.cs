@@ -13,6 +13,8 @@ namespace Jinx.Tests
         [MemberData("Appaloosa")]
         [MemberData("Bel")]
         [MemberData("JsonSchema")]
+        [MemberData("OpenTpx")]
+        [MemberData("TrackHubRegistry")]
         public void ValidateDocumentAgainstSchema(string schemaPath, string documentPath)
         {
             using (TextReader schemaReader = OpenReader(schemaPath))
@@ -37,6 +39,60 @@ namespace Jinx.Tests
             }
         }
 
+        public static IEnumerable<object[]> OpenTpx
+        {
+            get
+            {
+                yield return new string[]
+                {
+                    "open_tpx.tpx.2.2.schema.json",
+                    "open_tpx.tpx2-2-example-bgp-nc.json"
+                };
+
+                yield return new string[]
+                {
+                    "open_tpx.tpx.2.2.schema.json",
+                    "open_tpx.tpx2-2-example-collections-nc.json"
+                };
+
+                yield return new string[]
+                {
+                    "open_tpx.tpx.2.2.schema.json",
+                    "open_tpx.tpx2-2-example-countrycodes.json"
+                };
+
+                yield return new string[]
+                {
+                    "open_tpx.tpx.2.2.schema.json",
+                    "open_tpx.tpx2-2-example-emailobservable.json"
+                };
+
+                yield return new string[]
+                {
+                    "open_tpx.tpx.2.2.schema.json",
+                    "open_tpx.tpx2-2-example-ip-observables-nc.json"
+                };
+
+                yield return new string[]
+                {
+                    "open_tpx.tpx.2.2.schema.json",
+                    "open_tpx.tpx2-2-example-malware-report-2-nc.json"
+                };
+
+                yield return new string[]
+                {
+                    "open_tpx.tpx.2.2.schema.json",
+                    "open_tpx.tpx2-2-example-malware-report-nc.json"
+                };
+
+                yield return new string[]
+                {
+                    "open_tpx.tpx.2.2.schema.json",
+                    "open_tpx.tpx2-2-example-pcap-observables-nc.json"
+                };
+            }
+        }
+
         public static IEnumerable<object[]> Bel
         {
             get
@@ -45,6 +101,24 @@ namespace Jinx.Tests
                 {
                     "bel.test-network-schema.json",
                     "bel.test-network-sample.json"
+                };
+            }
+        }
+
+        public static IEnumerable<object[]> TrackHubRegistry
+        {
+            get
+            {
+                yield return new string[]
+                {
+                    "trackhub_registry.schema.json",
+                    "trackhub_registry.blueprint1.json"
+                };
+
+                yield return new string[]
+                {
+                    "trackhub_registry.schema.json",
+                    "trackhub_registry.blueprint2.json"
                 };
             }
         }

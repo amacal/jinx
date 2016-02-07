@@ -25,7 +25,10 @@ namespace Jinx.Schema
                 if (rule.IsValid(definitions, value))
                     counter++;
 
-            return counter == 1;
+            if (counter == 1)
+                return true;
+
+            return false;
         }
     }
 }
