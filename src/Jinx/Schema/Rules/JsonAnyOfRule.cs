@@ -1,30 +1,25 @@
 ﻿using Jinx.Dom;
 using System.Collections.Generic;
 
-namespace Jinx.Schema
+namespace Jinx.Schema.Rules
 {
     public class JsonAnyOfRule : JsonSchemaRule
     {
-        private readonly List<JsonSchemaRule> items;
+        private readonly List<JsonSchemaRule> rules;
 
         public JsonAnyOfRule()
         {
-            this.items = new List<JsonSchemaRule>();
+            this.rules = new List<JsonSchemaRule>();
         }
 
-        public JsonAnyOfRule(IEnumerable<JsonSchemaRule> items)
+        public void Add(JsonSchemaRule rule)
         {
-            this.items = new List<JsonSchemaRule>(items);
-        }
-
-        public void Add(JsonSchemaRule item)
-        {
-            items.Add(item);
+            rules.Add(rule);
         }
 
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value)
         {
-            foreach (JsonSchemaRule rule in items)
+            foreach (JsonSchemaRule rule in rules)
                 if (rule.IsValid(definitions, value))
                     return true;
 

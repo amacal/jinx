@@ -21,11 +21,23 @@ namespace Jinx.Dom
             return items.ContainsKey(name);
         }
 
+        public bool Contains<T>(string name)
+            where T : JsonValue
+        {
+            return items.ContainsKey(name) && items[name] is T;
+        }
+
         public JsonValue Get(string name)
         {
             JsonValue value;
             items.TryGetValue(name, out value);
             return value;
+        }
+
+        public T Get<T>(string name)
+            where T : JsonValue
+        {
+            return Get(name) as T;
         }
 
         public IEnumerable<string> GetKeys()

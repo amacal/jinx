@@ -69,6 +69,18 @@
     <EmbeddedResource Include="Resources\json-schema\self.json" />
     <EmbeddedResource Include="Resources\bel\test-network-sample.json" />
     <EmbeddedResource Include="Resources\bel\test-network-schema.json" />
+    <EmbeddedResource Include="Resources\trackhub-registry\blueprint2.json" />
+    <EmbeddedResource Include="Resources\trackhub-registry\blueprint1.json" />
+    <EmbeddedResource Include="Resources\trackhub-registry\schema.json" />
+    <EmbeddedResource Include="Resources\open-tpx\tpx.2.2.schema.json" />
+    <EmbeddedResource Include="Resources\open-tpx\tpx2-2-example-bgp-nc.json" />
+    <EmbeddedResource Include="Resources\open-tpx\tpx2-2-example-collections-nc.json" />
+    <EmbeddedResource Include="Resources\open-tpx\tpx2-2-example-countrycodes.json" />
+    <EmbeddedResource Include="Resources\open-tpx\tpx2-2-example-emailobservable.json" />
+    <EmbeddedResource Include="Resources\open-tpx\tpx2-2-example-ip-observables-nc.json" />
+    <EmbeddedResource Include="Resources\open-tpx\tpx2-2-example-malware-report-2-nc.json" />
+    <EmbeddedResource Include="Resources\open-tpx\tpx2-2-example-malware-report-nc.json" />
+    <EmbeddedResource Include="Resources\open-tpx\tpx2-2-example-pcap-observables-nc.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jinx\Jinx.csproj">

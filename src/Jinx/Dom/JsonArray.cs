@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Jinx.Dom
 {
@@ -29,6 +30,12 @@ namespace Jinx.Dom
         public IEnumerable<JsonValue> Items()
         {
             return items.AsReadOnly();
+        }
+
+        public IEnumerable<T> Items<T>()
+            where T : JsonValue
+        {
+            return items.OfType<T>();
         }
     }
 }

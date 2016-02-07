@@ -116,7 +116,7 @@ namespace Jinx.Dom
                     break;
 
                 case JsonTokenType.Number:
-                    callback.Invoke(new JsonNumber());
+                    callback.Invoke(new JsonNumber(reader.Token.GetString()));
                     break;
 
                 case JsonTokenType.True:

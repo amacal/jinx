@@ -1,12 +1,13 @@
 ﻿using Jinx.Dom;
+using System;
 
-namespace Jinx.Schema
+namespace Jinx.Schema.Rules
 {
-    public class JsonNoRule : JsonSchemaRule
+    public class JsonPatternRule : JsonSchemaRule
     {
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value)
         {
-            return true;
+            throw new NotImplementedException();
         }
     }
 }

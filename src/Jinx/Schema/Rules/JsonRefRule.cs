@@ -1,12 +1,12 @@
 ﻿using Jinx.Dom;
 
-namespace Jinx.Schema
+namespace Jinx.Schema.Rules
 {
-    public class JsonReferenceRule : JsonSchemaRule
+    public class JsonRefRule : JsonSchemaRule
     {
         private readonly string reference;
 
-        public JsonReferenceRule(string reference)
+        public JsonRefRule(string reference)
         {
             this.reference = reference;
         }
