@@ -11,7 +11,7 @@ namespace Jinx.Schema.Rules
             this.maxProperties = maxProperties;
         }
 
-        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value)
+        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
             JsonObject target = value as JsonObject;
 

@@ -13,7 +13,7 @@ namespace Jinx.Schema.Rules
             this.format = format;
         }
 
-        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value)
+        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
             switch (format)
             {

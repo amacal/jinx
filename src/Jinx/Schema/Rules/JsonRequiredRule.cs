@@ -17,7 +17,7 @@ namespace Jinx.Schema.Rules
             properties.Add(property);
         }
 
-        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value)
+        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
             JsonObject target = value as JsonObject;
 

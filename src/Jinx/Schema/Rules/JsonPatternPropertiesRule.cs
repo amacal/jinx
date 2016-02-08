@@ -19,7 +19,7 @@ namespace Jinx.Schema.Rules
             items.Add(new Regex(property), rule);
         }
 
-        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value)
+        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
             JsonObject target = value as JsonObject;
 
@@ -28,7 +28,7 @@ namespace Jinx.Schema.Rules
 
             foreach (Regex pattern in items.Keys)
                 foreach (string property in target.GetKeys().Where(x => pattern.IsMatch(x)))
-                    if (items[pattern].IsValid(definitions, target.Get(property)) == false)
+                    if (items[pattern].IsValid(definitions, target.Get(property), callback) == false)
                         return false;
 
             return true;

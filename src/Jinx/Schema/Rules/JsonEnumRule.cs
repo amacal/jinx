@@ -17,7 +17,7 @@ namespace Jinx.Schema.Rules
             values.Add(value);
         }
 
-        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value)
+        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
             if (values.Contains(value))
                 return true;

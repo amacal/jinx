@@ -12,7 +12,7 @@ namespace Jinx.Schema.Rules
             this.pattern = new Regex(pattern);
         }
 
-        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value)
+        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
             JsonText target = value as JsonText;
 

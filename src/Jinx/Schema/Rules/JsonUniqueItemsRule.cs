@@ -5,7 +5,7 @@ namespace Jinx.Schema.Rules
 {
     public class JsonUniqueItemsRule : JsonSchemaRule
     {
-        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value)
+        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
             JsonArray target = value as JsonArray;
 

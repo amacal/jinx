@@ -25,7 +25,7 @@ namespace Jinx.Schema.Rules
             patterns.Add(new Regex(pattern));
         }
 
-        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value)
+        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
             JsonObject target = value as JsonObject;
 

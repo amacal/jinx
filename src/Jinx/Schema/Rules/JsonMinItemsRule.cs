@@ -11,7 +11,7 @@ namespace Jinx.Schema.Rules
             this.minItems = minItems;
         }
 
-        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value)
+        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
             JsonArray target = value as JsonArray;
 

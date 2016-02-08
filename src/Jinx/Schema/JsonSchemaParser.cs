@@ -21,10 +21,10 @@ namespace Jinx.Schema
                 this.rules.Add(rule);
             }
 
-            public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value)
+            public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
             {
                 foreach (JsonSchemaRule rule in rules)
-                    if (rule.IsValid(definitions, value) == false)
+                    if (rule.IsValid(definitions, value, callback) == false)
                         return false;
 
                 return true;

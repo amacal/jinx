@@ -11,7 +11,7 @@ namespace Jinx.Schema.Rules
             this.reference = reference;
         }
 
-        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value)
+        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
             return definitions.Resolve(reference).IsValid(value);
         }

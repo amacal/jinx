@@ -25,7 +25,7 @@ namespace Jinx.Schema
 
         public bool IsValid(JsonValue value)
         {
-            return rule.IsValid(definitions, value);
+            return rule.IsValid(definitions, value, null);
         }
 
         private static JsonSchema GetSchema(string name)

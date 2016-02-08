@@ -11,7 +11,7 @@ namespace Jinx.Schema.Rules
             this.maxLength = maxLength;
         }
 
-        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value)
+        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
             JsonText text = value as JsonText;
 

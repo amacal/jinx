@@ -11,7 +11,7 @@ namespace Jinx.Schema.Rules
             this.schema = schema;
         }
 
-        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value)
+        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
             JsonArray target = value as JsonArray;
 
@@ -19,7 +19,7 @@ namespace Jinx.Schema.Rules
                 return true;
 
             foreach (JsonValue item in target.Items())
-                if (schema.IsValid(definitions, item) == false)
+                if (schema.IsValid(definitions, item, callback) == false)
                     return false;
 
             return true;

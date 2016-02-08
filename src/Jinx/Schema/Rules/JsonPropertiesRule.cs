@@ -14,10 +14,10 @@ namespace Jinx.Schema.Rules
 
         public void AddProperty(string property, JsonSchemaRule rule)
         {
-            items[property] = rule;
+            items.Add(property, rule);
         }
 
-        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value)
+        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
             JsonObject target = value as JsonObject;
 
@@ -26,7 +26,7 @@ namespace Jinx.Schema.Rules
 
             foreach (string property in target.GetKeys())
                 if (items.ContainsKey(property))
-                    if (items[property].IsValid(definitions, target.Get(property)) == false)
+                    if (items[property].IsValid(definitions, target.Get(property), callback) == false)
                         return false;
 
             return true;

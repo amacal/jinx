@@ -12,7 +12,7 @@ namespace Jinx.Schema.Rules
             this.minimum = minimum;
         }
 
-        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value)
+        public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
             JsonNumber target = value as JsonNumber;
 
