@@ -1,13 +1,22 @@
 ﻿using Jinx.Dom;
-using System;
 
 namespace Jinx.Schema.Rules
 {
     public class JsonNotRule : JsonSchemaRule
     {
+        private readonly JsonSchemaRule rule;
+
+        public JsonNotRule(JsonSchemaRule rule)
+        {
+            this.rule = rule;
+        }
+
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value)
         {
-            throw new NotImplementedException();
+            if (rule.IsValid(definitions, value) == false)
+                return true;
+
+            return false;
         }
     }
 }

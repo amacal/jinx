@@ -13,5 +13,17 @@
         {
             get { return value; }
         }
+
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            JsonText other = obj as JsonText;
+
+            return other.Value == Value;
+        }
     }
 }

@@ -5,11 +5,11 @@ namespace Jinx.Schema.Rules
 {
     public class JsonMinimumRule : JsonSchemaRule
     {
-        private readonly decimal threashold;
+        private readonly decimal minimum;
 
-        public JsonMinimumRule(decimal threashold)
+        public JsonMinimumRule(decimal minimum)
         {
-            this.threashold = threashold;
+            this.minimum = minimum;
         }
 
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value)
@@ -19,10 +19,10 @@ namespace Jinx.Schema.Rules
             if (target == null)
                 return true;
 
-            if (threashold > Decimal.Parse(target.Value))
-                return false;
+            if (Decimal.Parse(target.Value) >= minimum)
+                return true;
 
-            return true;
+            return false;
         }
     }
 }

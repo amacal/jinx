@@ -33,10 +33,16 @@ namespace Jinx
 
         public static JsonSchema GetSchema(TextReader reader)
         {
-            var document = GetDocument(reader);
-            var schemaReader = new JsonSchemaReader(document);
+            JsonDocument document = GetDocument(reader);
+            bool isValid = JsonSchema.Draft04.IsValid(document.Root);
 
-            return schemaReader.Load();
+            if (isValid == false)
+                throw new JsonSchemaException("The schema is not valid against draft-04.");
+
+            JsonSchemaReader schemaReader = new JsonSchemaReader(document);
+            JsonSchema schema = schemaReader.Load();
+
+            return schema;
         }
 
         public static JsonSchema GetSchema(string path)
