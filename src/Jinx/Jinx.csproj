@@ -35,6 +35,7 @@
   <ItemGroup>
     <Compile Include="Dom\JsonArray.cs" />
     <Compile Include="Dom\JsonDocumentReader.cs" />
+    <Compile Include="Dom\JsonExtensions.cs" />
     <Compile Include="JsonConvert.cs" />
     <Compile Include="Reader\JsonReaderBuffer.cs" />
     <Compile Include="Dom\JsonDocument.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Schema\Rules\JsonMinItemsRule.cs" />
     <Compile Include="Schema\Rules\JsonMinLengthRule.cs" />
     <Compile Include="Schema\Rules\JsonMinPropertiesRule.cs" />
+    <Compile Include="Schema\Rules\JsonMultipleOfRule.cs" />
     <Compile Include="Schema\Rules\JsonNotRule.cs" />
     <Compile Include="Schema\Rules\JsonOneOfRule.cs" />
     <Compile Include="Schema\Rules\JsonPatternPropertiesRule.cs" />
