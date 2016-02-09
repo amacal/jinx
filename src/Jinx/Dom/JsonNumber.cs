@@ -13,5 +13,10 @@
         {
             get { return this.value; }
         }
+
+        public bool IsInteger()
+        {
+            return this.value.Contains(".") == false;
+        }
     }
 }

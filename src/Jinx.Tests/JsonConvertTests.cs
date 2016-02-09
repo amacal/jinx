@@ -2,6 +2,9 @@
 using Jinx.Schema;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
 using Xunit;
 
 namespace Jinx.Tests
@@ -15,7 +18,8 @@ namespace Jinx.Tests
         [MemberData("JsonSchema")]
         [MemberData("OpenTpx")]
         [MemberData("TrackHubRegistry")]
-        public void ValidateDocumentAgainstSchema(string schemaPath, string documentPath)
+        [MemberData("SpaceTelescope", "ok")]
+        public void ValidateDocumentAgainstSchemaSucceeds(string schemaPath, string documentPath)
         {
             using (TextReader schemaReader = OpenReader(schemaPath))
             using (TextReader documentReader = OpenReader(documentPath))
@@ -25,6 +29,53 @@ namespace Jinx.Tests
 
                 Assert.True(schema.IsValid(document.Root));
             }
+        }
+
+        [Theory]
+        [MemberData("SpaceTelescope", "bad")]
+        public void ValidateDocumentAgainstSchemaFails(string schemaPath, string documentPath)
+        {
+            using (TextReader schemaReader = OpenReader(schemaPath))
+            using (TextReader documentReader = OpenReader(documentPath))
+            {
+                JsonSchema schema = JsonConvert.GetSchema(schemaReader);
+                JsonDocument document = JsonConvert.GetDocument(documentReader);
+
+                Assert.False(schema.IsValid(document.Root));
+            }
+        }
+
+        public static IEnumerable<object[]> SpaceTelescope(string type)
+        {
+            Regex schema = new Regex($@"(?<id>[0-9]{{2}})\.schema\.json$");
+            Regex sample = new Regex($@"(?<id>[0-9]{{2}})\.sample\.[0-9]{{2}}\.{type}$");
+
+            Assembly assembly = typeof(JsonConvertTests).Assembly;
+            string[] resources = assembly.GetManifestResourceNames();
+
+            foreach (var schemaEntry in resources.Select(x => new { Match = schema.Match(x), Path = x }).Where(x => x.Match.Success))
+            {
+                foreach (var sampleEntry in resources.Select(x => new { Match = sample.Match(x), Path = x }).Where(x => x.Match.Success))
+                {
+                    if (sampleEntry.Match.Groups["id"].Value == schemaEntry.Match.Groups["id"].Value)
+                    {
+                        yield return new string[]
+                        {
+                            schemaEntry.Path.Substring(21),
+                            sampleEntry.Path.Substring(21)
+                        };
+                    }
+                }
+            }
+        }
+
+        public static IEnumerable<object[]> SpacetelescopeSuccess()
+        {
+            yield return new string[]
+            {
+                "spacetelescope.about.01.schema.json",
+                "spacetelescope.about.01.sample-02.json"
+            };
         }
 
         public static IEnumerable<object[]> Appaloosa

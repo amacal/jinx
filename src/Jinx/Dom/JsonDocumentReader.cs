@@ -16,28 +16,14 @@ namespace Jinx.Dom
         {
             JsonDocument document = null;
 
-            Action<JsonObject> onObject = objekt =>
+            Action<JsonValue> onRoot = root =>
             {
-                document = new JsonDocument(objekt);
-            };
-
-            Action<JsonArray> onArray = array =>
-            {
-                document = new JsonDocument(array);
+                document = new JsonDocument(root);
             };
 
             while (reader.Next())
             {
-                switch (reader.Token.Type)
-                {
-                    case JsonTokenType.OpenObject:
-                        ParseObject(onObject);
-                        break;
-
-                    case JsonTokenType.OpenArray:
-                        ParseArray(onArray);
-                        break;
-                }
+                ParseValue(onRoot);
             }
 
             return document;

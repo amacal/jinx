@@ -4,12 +4,7 @@
     {
         private readonly JsonValue root;
 
-        public JsonDocument(JsonObject root)
-        {
-            this.root = root;
-        }
-
-        public JsonDocument(JsonArray root)
+        public JsonDocument(JsonValue root)
         {
             this.root = root;
         }

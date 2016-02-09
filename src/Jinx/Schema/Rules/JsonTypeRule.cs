@@ -1,14 +1,20 @@
 ﻿using Jinx.Dom;
+using System.Collections.Generic;
 
 namespace Jinx.Schema.Rules
 {
     public class JsonTypeRule : JsonSchemaRule
     {
-        private readonly string[] types;
+        private readonly List<string> types;
 
-        public JsonTypeRule(params string[] types)
+        public JsonTypeRule()
         {
-            this.types = types;
+            this.types = new List<string>();
+        }
+
+        public void AddType(string type)
+        {
+            types.Add(type);
         }
 
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
@@ -40,7 +46,7 @@ namespace Jinx.Schema.Rules
                     return value is JsonNull;
 
                 case "integer":
-                    return value is JsonNumber;
+                    return value is JsonNumber && value.As<JsonNumber>().IsInteger();
 
                 case "number":
                     return value is JsonNumber;

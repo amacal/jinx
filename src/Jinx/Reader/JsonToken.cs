@@ -6,18 +6,20 @@
         private readonly char[] data;
         private readonly int offset;
         private readonly int length;
+        private readonly bool escaped;
 
         public JsonToken(JsonTokenType type)
         {
             this.type = type;
         }
 
-        public JsonToken(JsonTokenType type, char[] data, int offset, int length)
+        public JsonToken(JsonTokenType type, char[] data, int offset, int length, bool escaped)
         {
             this.type = type;
             this.data = data;
             this.offset = offset;
             this.length = length;
+            this.escaped = escaped;
         }
 
         public JsonTokenType Type
@@ -27,7 +29,14 @@
 
         public string GetString()
         {
-            return new string(data, offset, length);
+            string result = new string(data, offset, length);
+
+            if (escaped)
+            {
+                result = result.Replace(@"\\", @"\");
+            }
+
+            return result;
         }
     }
 }

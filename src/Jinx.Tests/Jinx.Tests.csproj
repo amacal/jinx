@@ -81,6 +81,45 @@
     <EmbeddedResource Include="Resources\open-tpx\tpx2-2-example-malware-report-2-nc.json" />
     <EmbeddedResource Include="Resources\open-tpx\tpx2-2-example-malware-report-nc.json" />
     <EmbeddedResource Include="Resources\open-tpx\tpx2-2-example-pcap-observables-nc.json" />
+    <EmbeddedResource Include="Resources\spacetelescope\about\01.sample.01.bad" />
+    <EmbeddedResource Include="Resources\spacetelescope\about\01.schema.json" />
+    <EmbeddedResource Include="Resources\spacetelescope\about\01.sample.02.ok" />
+    <EmbeddedResource Include="Resources\spacetelescope\basics\02.sample.01.ok" />
+    <EmbeddedResource Include="Resources\spacetelescope\basics\02.sample.02.ok" />
+    <EmbeddedResource Include="Resources\spacetelescope\basics\02.sample.03.ok" />
+    <EmbeddedResource Include="Resources\spacetelescope\basics\02.schema.json" />
+    <EmbeddedResource Include="Resources\spacetelescope\basics\03.sample.01.ok" />
+    <EmbeddedResource Include="Resources\spacetelescope\basics\03.sample.02.bad" />
+    <EmbeddedResource Include="Resources\spacetelescope\basics\03.schema.json" />
+    <EmbeddedResource Include="Resources\spacetelescope\type\04.sample.01.ok" />
+    <EmbeddedResource Include="Resources\spacetelescope\type\04.sample.02.ok" />
+    <EmbeddedResource Include="Resources\spacetelescope\type\04.sample.03.bad" />
+    <EmbeddedResource Include="Resources\spacetelescope\type\04.schema.json" />
+    <EmbeddedResource Include="Resources\spacetelescope\type\05.sample.01.ok" />
+    <EmbeddedResource Include="Resources\spacetelescope\type\05.sample.02.ok" />
+    <EmbeddedResource Include="Resources\spacetelescope\type\05.sample.03.bad" />
+    <EmbeddedResource Include="Resources\spacetelescope\type\05.schema.json" />
+    <EmbeddedResource Include="Resources\spacetelescope\string\06.sample.01.ok" />
+    <EmbeddedResource Include="Resources\spacetelescope\string\06.sample.02.ok" />
+    <EmbeddedResource Include="Resources\spacetelescope\string\06.sample.03.ok" />
+    <EmbeddedResource Include="Resources\spacetelescope\string\06.sample.04.ok" />
+    <EmbeddedResource Include="Resources\spacetelescope\string\06.sample.05.bad" />
+    <EmbeddedResource Include="Resources\spacetelescope\string\06.schema.json" />
+    <EmbeddedResource Include="Resources\spacetelescope\numeric\09.sample.01.ok" />
+    <EmbeddedResource Include="Resources\spacetelescope\numeric\09.sample.02.ok" />
+    <EmbeddedResource Include="Resources\spacetelescope\numeric\09.sample.03.bad" />
+    <EmbeddedResource Include="Resources\spacetelescope\numeric\09.sample.04.bad" />
+    <EmbeddedResource Include="Resources\spacetelescope\numeric\09.schema.json" />
+    <None Include="Resources\spacetelescope\string\07.sample.01.bad" />
+    <EmbeddedResource Include="Resources\spacetelescope\string\07.sample.02.ok" />
+    <EmbeddedResource Include="Resources\spacetelescope\string\07.sample.03.ok" />
+    <EmbeddedResource Include="Resources\spacetelescope\string\07.sample.04.bad" />
+    <EmbeddedResource Include="Resources\spacetelescope\string\07.schema.json" />
+    <EmbeddedResource Include="Resources\spacetelescope\string\08.sample.01.ok" />
+    <EmbeddedResource Include="Resources\spacetelescope\string\08.sample.02.ok" />
+    <EmbeddedResource Include="Resources\spacetelescope\string\08.sample.03.bad" />
+    <EmbeddedResource Include="Resources\spacetelescope\string\08.sample.04.bad" />
+    <EmbeddedResource Include="Resources\spacetelescope\string\08.schema.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jinx\Jinx.csproj">
@@ -88,6 +127,7 @@
       <Name>Jinx</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

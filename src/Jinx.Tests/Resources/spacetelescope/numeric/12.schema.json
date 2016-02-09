@@ -1,0 +1,4 @@
+﻿{
+    "type"       : "number",
+    "multipleOf" : 10
+}

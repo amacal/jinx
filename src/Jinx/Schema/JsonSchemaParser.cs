@@ -217,6 +217,17 @@ namespace Jinx.Schema
             }
         }
 
+        private void AddMultipleOfRule(CombinedRule rules, JsonObject definition)
+        {
+            if (definition.Contains<JsonNumber>("multipleOf"))
+            {
+                JsonNumber multipleOf = definition.Get<JsonNumber>("multipleOf");
+                JsonMultipleOfRule rule = new JsonMultipleOfRule(Decimal.Parse(multipleOf.Value));
+
+                rules.Add(rule);
+            }
+        }
+
         private void AddNotRule(CombinedRule rules, JsonObject definition)
         {
             if (definition.Contains<JsonObject>("not"))
@@ -312,8 +323,20 @@ namespace Jinx.Schema
         {
             if (definition.Contains<JsonText>("type"))
             {
-                string type = definition.Get<JsonText>("type").Value;
-                JsonTypeRule rule = new JsonTypeRule(type);
+                JsonText type = definition.Get<JsonText>("type");
+                JsonTypeRule rule = new JsonTypeRule();
+
+                rule.AddType(type.Value);
+                rules.Add(rule);
+            }
+
+            if (definition.Contains<JsonArray>("type"))
+            {
+                JsonArray type = definition.Get<JsonArray>("type");
+                JsonTypeRule rule = new JsonTypeRule();
+
+                foreach (JsonText item in type.Items<JsonText>())
+                    rule.AddType(item.Value);
 
                 rules.Add(rule);
             }
@@ -346,6 +369,7 @@ namespace Jinx.Schema
             AddMinItemsRule(combined, definition);
             AddMinLengthRule(combined, definition);
             AddMinPropertiesRule(combined, definition);
+            AddMultipleOfRule(combined, definition);
             AddNotRule(combined, definition);
             AddOneOfRule(combined, definition);
             AddPatternPropertiesRule(combined, definition);

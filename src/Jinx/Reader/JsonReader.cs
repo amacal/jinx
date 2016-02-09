@@ -67,25 +67,13 @@ namespace Jinx.Reader
             buffer.Ensure(false);
             SkipWhiteSpaces();
 
-            switch (buffer.Data[buffer.Offset])
+            if (ReadValue(JsonReaderState.Final) == false)
             {
-                case '{':
-                    stack.Push(JsonReaderState.Final);
-                    state = JsonReaderState.BeginObject;
-                    token = new JsonToken(JsonTokenType.OpenObject);
-                    buffer.Forward(false);
-                    return true;
-
-                case '[':
-                    stack.Push(JsonReaderState.Final);
-                    state = JsonReaderState.BeginArray;
-                    token = new JsonToken(JsonTokenType.OpenArray);
-                    buffer.Forward(false);
-                    return true;
+                state = JsonReaderState.SyntaxError;
+                return false;
             }
 
-            state = JsonReaderState.SyntaxError;
-            return false;
+            return true;
         }
 
         private bool ReadPropertyOrEndObject()
@@ -252,12 +240,13 @@ namespace Jinx.Reader
             buffer.Forward(true);
 
             state = JsonReaderState.Property;
-            token = new JsonToken(JsonTokenType.Property, buffer.Data, start, length);
+            token = new JsonToken(JsonTokenType.Property, buffer.Data, start, length, false);
             return true;
         }
 
         private bool ReadText(JsonReaderState nextState)
         {
+            bool escaped = false;
             int start = buffer.Offset + 1;
             int length = 0;
 
@@ -267,7 +256,9 @@ namespace Jinx.Reader
             {
                 if (buffer.Data[buffer.Offset] == '\\')
                 {
+                    escaped = true;
                     buffer.Forward(true);
+                    length++;
                 }
 
                 buffer.Forward(true);
@@ -277,7 +268,7 @@ namespace Jinx.Reader
             buffer.Forward(true);
 
             state = nextState;
-            token = new JsonToken(JsonTokenType.Text, buffer.Data, start, length);
+            token = new JsonToken(JsonTokenType.Text, buffer.Data, start, length, escaped);
             return true;
         }
 
@@ -288,7 +279,7 @@ namespace Jinx.Reader
 
             Func<char, bool> isAcceptable = character =>
             {
-                return Char.IsDigit(character) || character == '.';
+                return Char.IsDigit(character) || character == '.' || character == '-' || character == 'e';
             };
 
             while (isAcceptable.Invoke(buffer.Data[buffer.Offset]))
@@ -301,7 +292,7 @@ namespace Jinx.Reader
                 return false;
 
             state = nextState;
-            token = new JsonToken(JsonTokenType.Number, buffer.Data, start, length);
+            token = new JsonToken(JsonTokenType.Number, buffer.Data, start, length, false);
             return true;
         }
 
