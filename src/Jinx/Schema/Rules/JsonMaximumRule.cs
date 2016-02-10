@@ -6,10 +6,12 @@ namespace Jinx.Schema.Rules
     public class JsonMaximumRule : JsonSchemaRule
     {
         private readonly decimal maximum;
+        private readonly bool exclusiveMaximum;
 
-        public JsonMaximumRule(decimal maximum)
+        public JsonMaximumRule(decimal maximum, bool exclusiveMaximum)
         {
             this.maximum = maximum;
+            this.exclusiveMaximum = exclusiveMaximum;
         }
 
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
@@ -19,7 +21,10 @@ namespace Jinx.Schema.Rules
             if (target == null)
                 return true;
 
-            if (Decimal.Parse(target.Value) <= maximum)
+            if (exclusiveMaximum == false && Decimal.Parse(target.Value) <= maximum)
+                return true;
+
+            if (exclusiveMaximum == true && Decimal.Parse(target.Value) < maximum)
                 return true;
 
             return false;

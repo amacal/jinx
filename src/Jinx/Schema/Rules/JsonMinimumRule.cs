@@ -6,10 +6,12 @@ namespace Jinx.Schema.Rules
     public class JsonMinimumRule : JsonSchemaRule
     {
         private readonly decimal minimum;
+        private readonly bool exclusiveMinimum;
 
-        public JsonMinimumRule(decimal minimum)
+        public JsonMinimumRule(decimal minimum, bool exclusiveMinimum)
         {
             this.minimum = minimum;
+            this.exclusiveMinimum = exclusiveMinimum;
         }
 
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
@@ -19,10 +21,13 @@ namespace Jinx.Schema.Rules
             if (target == null)
                 return true;
 
-            if (Decimal.Parse(target.Value) >= minimum)
+            if (exclusiveMinimum == false && Decimal.Parse(target.Value) >= minimum)
                 return true;
 
-            return false;
+            if (exclusiveMinimum == true && Decimal.Parse(target.Value) > minimum)
+                return true;
+
+                return false;
         }
     }
 }

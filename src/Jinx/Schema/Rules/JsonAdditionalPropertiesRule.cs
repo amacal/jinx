@@ -6,11 +6,19 @@ namespace Jinx.Schema.Rules
 {
     public class JsonAdditionalPropertiesRule : JsonSchemaRule
     {
+        private readonly JsonSchemaRule rule;
         private readonly List<string> properties;
         private readonly List<Regex> patterns;
 
         public JsonAdditionalPropertiesRule()
         {
+            this.properties = new List<string>();
+            this.patterns = new List<Regex>();
+        }
+
+        public JsonAdditionalPropertiesRule(JsonSchemaRule rule)
+        {
+            this.rule = rule;
             this.properties = new List<string>();
             this.patterns = new List<Regex>();
         }
@@ -40,8 +48,15 @@ namespace Jinx.Schema.Rules
             foreach (Regex pattern in patterns)
                 left.RemoveAll(pattern.IsMatch);
 
-            if (left.Count > 0)
+            if (left.Count == 0)
+                return true;
+
+            if (rule == null && left.Count > 0)
                 return false;
+
+            foreach (string property in left)
+                if (rule.IsValid(definitions, target.Get(property), callback) == false)
+                    return false;
 
             return true;
         }

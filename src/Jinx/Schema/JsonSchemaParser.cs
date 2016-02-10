@@ -63,6 +63,24 @@ namespace Jinx.Schema
 
                 rules.Add(rule);
             }
+
+            if (definition.Contains<JsonObject>("additionalProperties"))
+            {
+                JsonObject additionalProperties = definition.Get<JsonObject>("additionalProperties");
+                JsonObject properties = definition.Get<JsonObject>("properties");
+                JsonObject patterns = definition.Get<JsonObject>("patternProperties");
+                JsonAdditionalPropertiesRule rule = new JsonAdditionalPropertiesRule(Parse(additionalProperties));
+
+                if (properties != null)
+                    foreach (string property in properties.GetKeys())
+                        rule.AddProperty(property);
+
+                if (patterns != null)
+                    foreach (string pattern in patterns.GetKeys())
+                        rule.AddPattern(pattern);
+
+                rules.Add(rule);
+            }
         }
 
         private void AddAllOfRule(CombinedRule rules, JsonObject definition)
@@ -88,6 +106,39 @@ namespace Jinx.Schema
 
                 foreach (JsonObject item in allOf.Items<JsonObject>())
                     rule.Add(Parse(item));
+
+                rules.Add(rule);
+            }
+        }
+
+        private void AddDependencyRule(CombinedRule rules, JsonObject definition)
+        {
+            if (definition.Contains<JsonObject>("dependencies"))
+            {
+                JsonObject dependencies = definition.Get<JsonObject>("dependencies");
+                JsonDependencyRule rule = new JsonDependencyRule();
+
+                foreach (string property in dependencies.GetKeys())
+                {
+                    if (dependencies.Contains<JsonArray>(property))
+                    {
+                        JsonArray items = dependencies.Get<JsonArray>(property);
+                        List<string> values = new List<string>(items.Count);
+
+                        foreach (JsonText item in items.Items<JsonText>())
+                            values.Add(item.Value);
+
+                        rule.Add(property, values.ToArray());
+                    }
+
+                    if (dependencies.Contains<JsonObject>(property))
+                    {
+                        JsonObject container = dependencies.Get<JsonObject>(property);
+                        JsonSchemaRule schema = Parse(container);
+
+                        rule.Add(property, schema);
+                    }
+                }
 
                 rules.Add(rule);
             }
@@ -134,7 +185,8 @@ namespace Jinx.Schema
             if (definition.Contains<JsonNumber>("maximum"))
             {
                 JsonNumber maximum = definition.Get<JsonNumber>("maximum");
-                JsonMaximumRule rule = new JsonMaximumRule(Decimal.Parse(maximum.Value));
+                JsonTrue exclusiveMaximum = definition.Get<JsonTrue>("exclusiveMaximum");
+                JsonMaximumRule rule = new JsonMaximumRule(Decimal.Parse(maximum.Value), exclusiveMaximum != null);
 
                 rules.Add(rule);
             }
@@ -178,7 +230,8 @@ namespace Jinx.Schema
             if (definition.Contains<JsonNumber>("minimum"))
             {
                 JsonNumber minimum = definition.Get<JsonNumber>("minimum");
-                JsonMinimumRule rule = new JsonMinimumRule(Decimal.Parse(minimum.Value));
+                JsonTrue exclusiveMinimum = definition.Get<JsonTrue>("exclusiveMinimum");
+                JsonMinimumRule rule = new JsonMinimumRule(Decimal.Parse(minimum.Value), exclusiveMinimum != null);
 
                 rules.Add(rule);
             }
@@ -358,6 +411,7 @@ namespace Jinx.Schema
             AddAdditionalPropertiesRule(combined, definition);
             AddAllOfRule(combined, definition);
             AddAnyOfRule(combined, definition);
+            AddDependencyRule(combined, definition);
             AddEnumRule(combined, definition);
             AddFormatRule(combined, definition);
             AddItemsRule(combined, definition);

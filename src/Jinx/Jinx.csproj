@@ -62,6 +62,7 @@
     <Compile Include="Schema\Rules\JsonAdditionalPropertiesRule.cs" />
     <Compile Include="Schema\Rules\JsonAllOfRule.cs" />
     <Compile Include="Schema\Rules\JsonAnyOfRule.cs" />
+    <Compile Include="Schema\Rules\JsonDependencyRule.cs" />
     <Compile Include="Schema\Rules\JsonEnumRule.cs" />
     <Compile Include="Schema\Rules\JsonFormatRule.cs" />
     <Compile Include="Schema\Rules\JsonItemsRule.cs" />
