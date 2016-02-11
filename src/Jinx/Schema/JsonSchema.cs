@@ -1,5 +1,6 @@
 ﻿using Jinx.Dom;
 using Jinx.Reader;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
@@ -25,7 +26,12 @@ namespace Jinx.Schema
 
         public bool IsValid(JsonValue value)
         {
-            return rule.IsValid(definitions, value, null);
+            return rule.IsValid(definitions, value, (x, y, z) => { });
+        }
+
+        public bool IsValid(JsonValue value, ICollection<string> messages)
+        {
+            return rule.IsValid(definitions, value, (x, y, z) => messages.Add(z));
         }
 
         private static JsonSchema GetSchema(string name)

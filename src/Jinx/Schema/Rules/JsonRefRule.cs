@@ -1,4 +1,5 @@
 ﻿using Jinx.Dom;
+using System.Collections.Generic;
 
 namespace Jinx.Schema.Rules
 {
@@ -13,7 +14,15 @@ namespace Jinx.Schema.Rules
 
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
-            return definitions.Resolve(reference).IsValid(value);
+            List<string> messages = new List<string>();
+
+            if (definitions.Resolve(reference).IsValid(value, messages))
+                return true;
+
+            foreach (string message in messages)
+                callback.Call("", value, message);
+
+            return callback.Call("", value, $"Referenced schema '{reference}' is invalid.");
         }
     }
 }

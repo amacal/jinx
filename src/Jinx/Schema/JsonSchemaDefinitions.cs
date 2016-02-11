@@ -4,29 +4,36 @@ namespace Jinx.Schema
 {
     public class JsonSchemaDefinitions
     {
-        private readonly JsonObject definition;
+        private readonly JsonObject root;
         private readonly JsonSchemaParser parser;
+        private readonly JsonSchemaRepository repository;
 
-        public JsonSchemaDefinitions(JsonObject definition)
+        public JsonSchemaDefinitions(JsonSchemaRepository repository, JsonObject root)
         {
-            this.definition = definition;
+            this.root = root;
             this.parser = new JsonSchemaParser();
+            this.repository = repository;
         }
 
         public JsonSchema Resolve(string reference)
         {
-            string[] parts = reference.Split('/');
-            JsonObject node = FindNode(parts);
+            if (reference.StartsWith("#"))
+            {
+                string[] parts = reference.Split('/');
+                JsonObject node = FindNode(parts);
 
-            JsonSchemaRule rule = parser.Parse(node);
-            JsonSchema schema = new JsonSchema(rule, this);
+                JsonSchemaRule rule = parser.Parse(node);
+                JsonSchema schema = new JsonSchema(rule, this);
 
-            return schema;
+                return schema;
+            }
+
+            return repository.GetByReference(reference);
         }
 
         private JsonObject FindNode(string[] path)
         {
-            JsonObject current = definition;
+            JsonObject current = root;
 
             foreach (string segment in path)
             {

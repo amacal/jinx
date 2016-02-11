@@ -23,7 +23,7 @@ namespace Jinx.Schema.Rules
                 if (rule.IsValid(definitions, value, callback))
                     return true;
 
-            return false;
+            return callback.Call("", value, "At least one schema should be valid");
         }
     }
 }

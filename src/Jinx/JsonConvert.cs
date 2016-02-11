@@ -45,6 +45,14 @@ namespace Jinx
             return schema;
         }
 
+        public static JsonSchema GetSchema(Stream stream)
+        {
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                return GetSchema(reader);
+            }
+        }
+
         public static JsonSchema GetSchema(string path)
         {
             using (StreamReader reader = new StreamReader(path))

@@ -258,6 +258,7 @@
     <EmbeddedResource Include="Resources\spacetelescope\combining\44.sample.02.ok" />
     <EmbeddedResource Include="Resources\spacetelescope\combining\44.sample.03.bad" />
     <EmbeddedResource Include="Resources\spacetelescope\combining\44.schema.json" />
+    <EmbeddedResource Include="Resources\heroku\01.schema.json" />
     <None Include="Resources\spacetelescope\string\07.sample.01.bad" />
     <EmbeddedResource Include="Resources\spacetelescope\string\07.sample.02.ok" />
     <EmbeddedResource Include="Resources\spacetelescope\string\07.sample.03.ok" />
@@ -282,6 +283,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\spacetelescope\combining\43.sample.02.ok" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\heroku\01.sample.01.ok" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

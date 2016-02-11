@@ -56,7 +56,7 @@ namespace Jinx.Schema.Rules
 
             foreach (string property in left)
                 if (rule.IsValid(definitions, target.Get(property), callback) == false)
-                    return false;
+                    return callback.Call("", value, $"The property presence '{property}' is not allowed");
 
             return true;
         }

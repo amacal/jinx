@@ -27,7 +27,7 @@ namespace Jinx.Schema.Rules
             foreach (string property in target.GetKeys())
                 if (items.ContainsKey(property))
                     if (items[property].IsValid(definitions, target.Get(property), callback) == false)
-                        return false;
+                        return callback.Call("", value, $"The property {property} has invalid schema");
 
             return true;
         }

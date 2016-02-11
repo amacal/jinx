@@ -18,7 +18,7 @@ namespace Jinx.Tests
         [MemberData("JsonSchema")]
         [MemberData("OpenTpx")]
         [MemberData("TrackHubRegistry")]
-        [MemberData("SpaceTelescope", "ok")]
+        [MemberData("SpaceTelescope", "spacetelescope", "ok")]
         public void ValidateDocumentAgainstSchemaSucceeds(string schemaPath, string documentPath)
         {
             using (TextReader schemaReader = OpenReader(schemaPath))
@@ -27,12 +27,15 @@ namespace Jinx.Tests
                 JsonSchema schema = JsonConvert.GetSchema(schemaReader);
                 JsonDocument document = JsonConvert.GetDocument(documentReader);
 
-                Assert.True(schema.IsValid(document.Root));
+                List<string> messages = new List<string>();
+                bool positive = schema.IsValid(document.Root, messages);
+
+                Assert.True(positive);
             }
         }
 
         [Theory]
-        [MemberData("SpaceTelescope", "bad")]
+        [MemberData("SpaceTelescope", "spacetelescope", "bad")]
         public void ValidateDocumentAgainstSchemaFails(string schemaPath, string documentPath)
         {
             using (TextReader schemaReader = OpenReader(schemaPath))
@@ -45,7 +48,7 @@ namespace Jinx.Tests
             }
         }
 
-        public static IEnumerable<object[]> SpaceTelescope(string type)
+        public static IEnumerable<object[]> SpaceTelescope(string resource, string type)
         {
             Regex schema = new Regex($@"(?<id>[0-9]{{2}})\.schema\.json$");
             Regex sample = new Regex($@"(?<id>[0-9]{{2}})\.sample\.[0-9]{{2}}\.{type}$");
@@ -59,11 +62,14 @@ namespace Jinx.Tests
                 {
                     if (sampleEntry.Match.Groups["id"].Value == schemaEntry.Match.Groups["id"].Value)
                     {
-                        yield return new string[]
+                        if (sampleEntry.Path.Contains(resource) && schemaEntry.Path.Contains(resource))
                         {
-                            schemaEntry.Path.Substring(21),
-                            sampleEntry.Path.Substring(21)
-                        };
+                            yield return new string[]
+                            {
+                                schemaEntry.Path.Substring(21),
+                                sampleEntry.Path.Substring(21)
+                            };
+                        }
                     }
                 }
             }

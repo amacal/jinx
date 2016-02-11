@@ -16,7 +16,7 @@ namespace Jinx.Schema.Rules
             if (rule.IsValid(definitions, value, callback) == false)
                 return true;
 
-            return false;
+            return callback.Call("", value, "The schema cannot be valid.");
         }
     }
 }

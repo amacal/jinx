@@ -16,7 +16,9 @@ namespace Jinx.Schema
         public JsonSchema Load()
         {
             JsonObject root = document.Root as JsonObject;
-            JsonSchemaDefinitions definitions = new JsonSchemaDefinitions(root);
+            JsonSchemaRepository repository = new JsonSchemaRepository();
+
+            JsonSchemaDefinitions definitions = new JsonSchemaDefinitions(repository, root);
             JsonSchema schema = new JsonSchema(parser.Parse(root), definitions);
 
             return schema;
