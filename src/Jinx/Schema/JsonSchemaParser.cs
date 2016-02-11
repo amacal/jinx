@@ -178,6 +178,17 @@ namespace Jinx.Schema
 
                 rules.Add(rule);
             }
+
+            if (definition.Contains<JsonArray>("items"))
+            {
+                JsonArray items = definition.Get<JsonArray>("items");
+                JsonItemsRule rule = new JsonItemsRule();
+
+                foreach (JsonObject item in items.Items<JsonObject>())
+                    rule.AddTuple(Parse(item));
+
+                rules.Add(rule);
+            }
         }
 
         private void AddMaximumRule(CombinedRule rules, JsonObject definition)

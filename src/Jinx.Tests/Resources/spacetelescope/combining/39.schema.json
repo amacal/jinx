@@ -1,0 +1,6 @@
+﻿{
+  "allOf": [
+    { "type": "string" },
+    { "type": "number" }
+  ]
+}

@@ -18,5 +18,17 @@
         {
             return this.value.Contains(".") == false;
         }
+
+        public override int GetHashCode()
+        {
+            return value.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            JsonNumber other = obj as JsonNumber;
+
+            return other.value == Value;
+        }
     }
 }

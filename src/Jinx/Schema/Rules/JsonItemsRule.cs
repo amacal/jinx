@@ -1,14 +1,26 @@
 ﻿using Jinx.Dom;
+using System.Collections.Generic;
 
 namespace Jinx.Schema.Rules
 {
     public class JsonItemsRule : JsonSchemaRule
     {
         private readonly JsonSchemaRule schema;
+        private readonly List<JsonSchemaRule> tuples;
+
+        public JsonItemsRule()
+        {
+            this.tuples = new List<JsonSchemaRule>();
+        }
 
         public JsonItemsRule(JsonSchemaRule schema)
         {
             this.schema = schema;
+        }
+
+        public void AddTuple(JsonSchemaRule tuple)
+        {
+            tuples.Add(tuple);
         }
 
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
@@ -18,9 +30,15 @@ namespace Jinx.Schema.Rules
             if (target == null)
                 return true;
 
-            foreach (JsonValue item in target.Items())
-                if (schema.IsValid(definitions, item, callback) == false)
-                    return false;
+            if (schema != null)
+                foreach (JsonValue item in target.Items())
+                    if (schema.IsValid(definitions, item, callback) == false)
+                        return false;
+
+            if (tuples != null)
+                for (int i = 0; i < tuples.Count && i < target.Count; i++)
+                    if (tuples[i].IsValid(definitions, target.Get(i), callback) == false)
+                        return false;
 
             return true;
         }
