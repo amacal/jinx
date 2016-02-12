@@ -18,10 +18,10 @@ namespace Jinx.Schema.Rules
             if (target == null)
                 return true;
 
-            if (target.Count > items)
-                return false;
+            if (target.Count <= items)
+                return true;
 
-            return true;
+            return callback.Call(value, "The array should not contain additional items.");
         }
     }
 }

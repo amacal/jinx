@@ -1,4 +1,5 @@
 ﻿using Jinx.Dom;
+using System.Collections.Generic;
 
 namespace Jinx.Schema.Rules
 {
@@ -13,10 +14,10 @@ namespace Jinx.Schema.Rules
 
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
-            if (rule.IsValid(definitions, value, callback) == false)
+            if (rule.IsValid(definitions, value, JsonSchemaCallback.Ignore()) == false)
                 return true;
 
-            return callback.Call("", value, "The schema cannot be valid.");
+            return callback.Call(value, "The schema cannot be valid.");
         }
     }
 }

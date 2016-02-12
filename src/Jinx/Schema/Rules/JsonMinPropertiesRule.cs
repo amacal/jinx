@@ -18,10 +18,10 @@ namespace Jinx.Schema.Rules
             if (target == null)
                 return true;
 
-            if (minProperties > target.Count)
-                return false;
+            if (minProperties <= target.Count)
+                return true;
 
-            return true;
+            return callback.Call(value, "The object has too few properties"); ;
         }
     }
 }

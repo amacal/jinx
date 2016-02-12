@@ -18,10 +18,10 @@ namespace Jinx.Schema.Rules
             if (text == null)
                 return true;
 
-            if (text.Value.Length < minLength)
-                return false;
+            if (text.Value.Length >= minLength)
+                return true;
 
-            return true;
+            return false;
         }
     }
 }

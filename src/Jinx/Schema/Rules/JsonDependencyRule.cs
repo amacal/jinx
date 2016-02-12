@@ -35,12 +35,12 @@ namespace Jinx.Schema.Rules
                 if (target.Contains(property))
                     foreach (string dependency in byName[property])
                         if (target.Contains(dependency) == false)
-                            return false;
+                            return callback.Call($".{property}", value, "The dependency is not valid.");
 
             foreach (string property in byRule.Keys)
                 if (target.Contains(property))
                     if (byRule[property].IsValid(definitions, value, callback) == false)
-                        return false;
+                        return callback.Call($".{property}", value, "The dependency is not valid.");
 
             return true;
         }

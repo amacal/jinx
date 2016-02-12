@@ -28,7 +28,8 @@
         {
             JsonNumber other = obj as JsonNumber;
 
-            return other.value == Value;
+            return other != null 
+                && other.value == Value;
         }
     }
 }

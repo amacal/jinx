@@ -27,7 +27,7 @@ namespace Jinx.Schema.Rules
             if (exclusiveMaximum == true && Decimal.Parse(target.Value) < maximum)
                 return true;
 
-            return false;
+            return callback.Call(value, $"The number should be greater than {maximum}");
         }
     }
 }

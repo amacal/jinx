@@ -23,7 +23,7 @@ namespace Jinx.Schema.Rules
                 if (HasType(value, type))
                     return true;
 
-            return false;
+            return callback.Call(value, "The type is not valid");
         }
 
         private static bool HasType(JsonValue value, string type)

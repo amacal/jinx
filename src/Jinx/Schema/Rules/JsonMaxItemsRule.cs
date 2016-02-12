@@ -18,10 +18,10 @@ namespace Jinx.Schema.Rules
             if (target == null)
                 return true;
 
-            if (maxItems < target.Count)
-                return false;
+            if (maxItems >= target.Count)
+                return true;
 
-            return true;
+            return callback.Call(value, $"The array cannot have more than {maxItems} items");
         }
     }
 }

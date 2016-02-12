@@ -26,12 +26,12 @@ namespace Jinx.Schema
 
         public bool IsValid(JsonValue value)
         {
-            return rule.IsValid(definitions, value, (x, y, z) => { });
+            return rule.IsValid(definitions, value, JsonSchemaCallback.Ignore());
         }
 
-        public bool IsValid(JsonValue value, ICollection<string> messages)
+        public bool IsValid(JsonValue value, ICollection<JsonSchemaMessage> messages)
         {
-            return rule.IsValid(definitions, value, (x, y, z) => messages.Add(z));
+            return rule.IsValid(definitions, value, new JsonSchemaCallback(messages));
         }
 
         private static JsonSchema GetSchema(string name)

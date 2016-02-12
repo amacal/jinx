@@ -21,7 +21,7 @@ namespace Jinx.Schema.Rules
         {
             foreach (JsonSchemaRule rule in rules)
                 if (rule.IsValid(definitions, value, callback) == false)
-                    return false;
+                    return callback.Call(value, "All schemas should be valid.");
 
             return true;
         }

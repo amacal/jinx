@@ -18,10 +18,10 @@ namespace Jinx.Schema.Rules
             if (target == null)
                 return true;
 
-            if (minItems > target.Count)
-                return false;
+            if (minItems <= target.Count)
+                return true;
 
-            return true;
+            return callback.Call(value, $"The array should have more than or equal to {minItems} items");
         }
     }
 }

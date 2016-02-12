@@ -18,10 +18,10 @@ namespace Jinx.Schema.Rules
             if (target == null)
                 return true;
 
-            if (maxProperties < target.Count)
-                return false;
+            if (maxProperties >= target.Count)
+                return true;
 
-            return true;
+            return callback.Call(value, "The object has too many properties");
         }
     }
 }

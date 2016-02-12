@@ -18,10 +18,10 @@ namespace Jinx.Schema.Rules
             if (text == null)
                 return true;
 
-            if (text.Value.Length > maxLength)
-                return false;
+            if (text.Value.Length <= maxLength)
+                return true;
 
-            return true;
+            return callback.Call(value, "The value should has max length");
         }
     }
 }

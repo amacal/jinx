@@ -20,10 +20,10 @@ namespace Jinx.Schema.Rules
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
             foreach (JsonSchemaRule rule in rules)
-                if (rule.IsValid(definitions, value, callback))
+                if (rule.IsValid(definitions, value, JsonSchemaCallback.Ignore()))
                     return true;
 
-            return callback.Call("", value, "At least one schema should be valid");
+            return callback.Call(value, "At least one schema should be valid.");
         }
     }
 }

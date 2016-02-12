@@ -33,12 +33,12 @@ namespace Jinx.Schema.Rules
             if (schema != null)
                 foreach (JsonValue item in target.Items())
                     if (schema.IsValid(definitions, item, callback) == false)
-                        return false;
+                        return callback.Call($"[{target.IndexOf(item)}]", value, "The array element is invalid according to the item schema.");
 
             if (tuples != null)
                 for (int i = 0; i < tuples.Count && i < target.Count; i++)
                     if (tuples[i].IsValid(definitions, target.Get(i), callback) == false)
-                        return false;
+                        return callback.Call($"[{i}]", value, "The array element is invalid according to the tuple schema.");
 
             return true;
         }

@@ -52,11 +52,11 @@ namespace Jinx.Schema.Rules
                 return true;
 
             if (rule == null && left.Count > 0)
-                return false;
+                return callback.Call($".{left[0]}", value, "The property presence is not allowed.");
 
             foreach (string property in left)
                 if (rule.IsValid(definitions, target.Get(property), callback) == false)
-                    return callback.Call("", value, $"The property presence '{property}' is not allowed");
+                    return callback.Call($".{property}", value, "The property presence is not allowed.");
 
             return true;
         }

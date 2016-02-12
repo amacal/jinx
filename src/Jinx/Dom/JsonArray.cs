@@ -37,5 +37,10 @@ namespace Jinx.Dom
         {
             return items.OfType<T>();
         }
+
+        public int IndexOf(JsonValue value)
+        {
+            return items.IndexOf(value);
+        }
     }
 }

@@ -26,7 +26,7 @@ namespace Jinx.Schema.Rules
 
             foreach (string property in properties)
                 if (target.Contains(property) == false)
-                    return callback.Call("", value, $"The property '{property}' is required");
+                    return callback.Call(value, $"The property '{property}' is required");
 
             return true;
         }

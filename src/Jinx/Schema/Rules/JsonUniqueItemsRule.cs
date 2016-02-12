@@ -15,7 +15,7 @@ namespace Jinx.Schema.Rules
 
             foreach (JsonValue item in target.Items())
                 if (items.Add(item) == false)
-                    return false;
+                    return callback.Call(value, "The array elements should be unique");
 
             return true;
         }

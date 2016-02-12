@@ -22,10 +22,10 @@ namespace Jinx.Schema.Rules
             decimal division = Decimal.Parse(target.Value) / multipleOf;
             long integer = Convert.ToInt64(division);
 
-            if (integer != division)
-                return false;
+            if (integer == division)
+                return true;
 
-            return true;
+            return callback.Call(value, $"The number should be multiplication of {multipleOf}");
         }
     }
 }

@@ -14,15 +14,15 @@ namespace Jinx.Schema.Rules
 
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
-            List<string> messages = new List<string>();
+            List<JsonSchemaMessage> messages = new List<JsonSchemaMessage>();
 
             if (definitions.Resolve(reference).IsValid(value, messages))
                 return true;
 
-            foreach (string message in messages)
-                callback.Call("", value, message);
+            foreach (JsonSchemaMessage message in messages)
+                callback.Add(message);
 
-            return callback.Call("", value, $"Referenced schema '{reference}' is invalid.");
+            return callback.Call(value, $"Referenced schema '{reference}' is invalid.");
         }
     }
 }

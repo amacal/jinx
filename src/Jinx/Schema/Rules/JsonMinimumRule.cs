@@ -27,7 +27,7 @@ namespace Jinx.Schema.Rules
             if (exclusiveMinimum == true && Decimal.Parse(target.Value) > minimum)
                 return true;
 
-                return false;
+            return callback.Call(value, $"The number should be at least {minimum}");
         }
     }
 }

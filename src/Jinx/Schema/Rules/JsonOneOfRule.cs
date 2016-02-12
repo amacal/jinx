@@ -23,17 +23,17 @@ namespace Jinx.Schema.Rules
 
             foreach (JsonSchemaRule rule in rules)
             {
-                if (rule.IsValid(definitions, value, callback))
+                if (rule.IsValid(definitions, value, JsonSchemaCallback.Ignore()))
                     count++;
 
                 if (count > 1)
-                    return false;
+                    break;
             }
 
-            if (count == 0)
-                return false;
+            if (count == 1)
+                return true;
 
-            return true;
+            return callback.Call(value, "The exactly one schema should be valid");
         }
     }
 }

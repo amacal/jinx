@@ -55,8 +55,9 @@
     <Compile Include="Schema\JsonSchemaCallback.cs" />
     <Compile Include="Schema\JsonSchemaDefinitions.cs" />
     <Compile Include="Schema\JsonSchemaException.cs" />
-    <Compile Include="Schema\JsonSchemaExtensions.cs" />
+    <Compile Include="Schema\JsonSchemaMessage.cs" />
     <Compile Include="Schema\JsonSchemaParser.cs" />
+    <Compile Include="Schema\JsonSchemaPath.cs" />
     <Compile Include="Schema\JsonSchemaReader.cs" />
     <Compile Include="Schema\JsonSchemaRepository.cs" />
     <Compile Include="Schema\JsonSchemaRule.cs" />

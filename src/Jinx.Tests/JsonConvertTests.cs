@@ -27,10 +27,10 @@ namespace Jinx.Tests
                 JsonSchema schema = JsonConvert.GetSchema(schemaReader);
                 JsonDocument document = JsonConvert.GetDocument(documentReader);
 
-                List<string> messages = new List<string>();
+                List<JsonSchemaMessage> messages = new List<JsonSchemaMessage>();
                 bool positive = schema.IsValid(document.Root, messages);
 
-                Assert.True(positive);
+                Assert.True(positive && messages.Count == 0);
             }
         }
 
@@ -44,7 +44,10 @@ namespace Jinx.Tests
                 JsonSchema schema = JsonConvert.GetSchema(schemaReader);
                 JsonDocument document = JsonConvert.GetDocument(documentReader);
 
-                Assert.False(schema.IsValid(document.Root));
+                List<JsonSchemaMessage> messages = new List<JsonSchemaMessage>();
+                bool positive = schema.IsValid(document.Root, messages);
+
+                Assert.True(positive == false && messages.Count > 0);
             }
         }
 
