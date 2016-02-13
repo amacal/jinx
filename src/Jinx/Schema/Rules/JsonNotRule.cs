@@ -1,5 +1,4 @@
 ﻿using Jinx.Dom;
-using System.Collections.Generic;
 
 namespace Jinx.Schema.Rules
 {
