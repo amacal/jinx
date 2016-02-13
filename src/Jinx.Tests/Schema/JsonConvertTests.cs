@@ -7,9 +7,9 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using Xunit;
 
-namespace Jinx.Tests
+namespace Jinx.Tests.Schema
 {
-    public class JsonConvertTests
+    public class JsonSchemaTests
     {
         [Theory]
         [MemberData("Amazon")]
@@ -56,7 +56,7 @@ namespace Jinx.Tests
             Regex schema = new Regex($@"(?<id>[0-9]{{2}})\.schema\.json$");
             Regex sample = new Regex($@"(?<id>[0-9]{{2}})\.sample\.[0-9]{{2}}\.{type}$");
 
-            Assembly assembly = typeof(JsonConvertTests).Assembly;
+            Assembly assembly = typeof(JsonSchemaTests).Assembly;
             string[] resources = assembly.GetManifestResourceNames();
 
             foreach (var schemaEntry in resources.Select(x => new { Match = schema.Match(x), Path = x }).Where(x => x.Match.Success))
@@ -233,7 +233,7 @@ namespace Jinx.Tests
 
         private TextReader OpenReader(string resource)
         {
-            Stream stream = GetType().Assembly.GetManifestResourceStream(GetType(), "Resources." + resource);
+            Stream stream = GetType().Assembly.GetManifestResourceStream("Jinx.Tests.Resources." + resource);
             TextReader reader = new StreamReader(stream);
 
             return reader;

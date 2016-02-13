@@ -51,6 +51,9 @@
     <Compile Include="Reader\JsonReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reader\JsonTokenType.cs" />
+    <Compile Include="Reader\Tokens\DataToken.cs" />
+    <Compile Include="Reader\Tokens\EscapingToken.cs" />
+    <Compile Include="Reader\Tokens\TypedToken.cs" />
     <Compile Include="Schema\Factories\JsonAdditionalItemsRuleFactory.cs" />
     <Compile Include="Schema\Factories\JsonAdditionalPropertiesRuleFactory.cs" />
     <Compile Include="Schema\Factories\JsonAllOfRuleFactory.cs" />
