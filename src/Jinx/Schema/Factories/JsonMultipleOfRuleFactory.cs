@@ -11,7 +11,7 @@ namespace Jinx.Schema.Factories
             if (definition.Contains<JsonNumber>("multipleOf"))
             {
                 JsonNumber multipleOf = definition.Get<JsonNumber>("multipleOf");
-                JsonMultipleOfRule rule = new JsonMultipleOfRule(Decimal.Parse(multipleOf.Value));
+                JsonMultipleOfRule rule = new JsonMultipleOfRule(multipleOf.ToDecimal());
 
                 rules.Add(rule);
             }

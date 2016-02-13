@@ -19,7 +19,7 @@ namespace Jinx.Schema.Rules
             if (target == null)
                 return true;
 
-            decimal division = Decimal.Parse(target.Value) / multipleOf;
+            decimal division = target.ToDecimal() / multipleOf;
             long integer = Convert.ToInt64(division);
 
             if (integer == division)

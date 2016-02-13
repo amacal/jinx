@@ -12,7 +12,7 @@ namespace Jinx.Schema.Factories
             {
                 JsonNumber maximum = definition.Get<JsonNumber>("maximum");
                 JsonTrue exclusiveMaximum = definition.Get<JsonTrue>("exclusiveMaximum");
-                JsonMaximumRule rule = new JsonMaximumRule(Decimal.Parse(maximum.Value), exclusiveMaximum != null);
+                JsonMaximumRule rule = new JsonMaximumRule(maximum.ToDecimal(), exclusiveMaximum != null);
 
                 rules.Add(rule);
             }

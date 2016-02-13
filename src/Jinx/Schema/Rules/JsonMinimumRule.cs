@@ -1,5 +1,4 @@
 ﻿using Jinx.Dom;
-using System;
 
 namespace Jinx.Schema.Rules
 {
@@ -21,10 +20,10 @@ namespace Jinx.Schema.Rules
             if (target == null)
                 return true;
 
-            if (exclusiveMinimum == false && Decimal.Parse(target.Value) >= minimum)
+            if (exclusiveMinimum == false && target.ToDecimal() >= minimum)
                 return true;
 
-            if (exclusiveMinimum == true && Decimal.Parse(target.Value) > minimum)
+            if (exclusiveMinimum == true && target.ToDecimal() > minimum)
                 return true;
 
             if (exclusiveMinimum == false)

@@ -11,7 +11,7 @@ namespace Jinx.Schema.Factories
             if (definition.Contains<JsonNumber>("minItems"))
             {
                 JsonNumber minItems = definition.Get<JsonNumber>("minItems");
-                JsonMinItemsRule rule = new JsonMinItemsRule(Int32.Parse(minItems.Value));
+                JsonMinItemsRule rule = new JsonMinItemsRule(minItems.ToInt32());
 
                 rules.Add(rule);
             }

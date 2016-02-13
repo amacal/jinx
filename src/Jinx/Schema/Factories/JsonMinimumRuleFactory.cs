@@ -12,7 +12,7 @@ namespace Jinx.Schema.Factories
             {
                 JsonNumber minimum = definition.Get<JsonNumber>("minimum");
                 JsonTrue exclusiveMinimum = definition.Get<JsonTrue>("exclusiveMinimum");
-                JsonMinimumRule rule = new JsonMinimumRule(Decimal.Parse(minimum.Value), exclusiveMinimum != null);
+                JsonMinimumRule rule = new JsonMinimumRule(minimum.ToDecimal(), exclusiveMinimum != null);
 
                 rules.Add(rule);
             }

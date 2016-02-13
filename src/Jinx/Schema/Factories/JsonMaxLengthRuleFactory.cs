@@ -11,7 +11,7 @@ namespace Jinx.Schema.Factories
             if (definition.Contains<JsonNumber>("maxLength"))
             {
                 JsonNumber maxLength = definition.Get<JsonNumber>("maxLength");
-                JsonMaxLengthRule rule = new JsonMaxLengthRule(Int32.Parse(maxLength.Value));
+                JsonMaxLengthRule rule = new JsonMaxLengthRule(maxLength.ToInt32());
 
                 rules.Add(rule);
             }

@@ -11,7 +11,7 @@ namespace Jinx.Schema.Factories
             if (definition.Contains<JsonNumber>("maxProperties"))
             {
                 JsonNumber maxProperties = definition.Get<JsonNumber>("maxProperties");
-                JsonMaxPropertiesRule rule = new JsonMaxPropertiesRule(Int32.Parse(maxProperties.Value));
+                JsonMaxPropertiesRule rule = new JsonMaxPropertiesRule(maxProperties.ToInt32());
 
                 rules.Add(rule);
             }

@@ -1,4 +1,7 @@
-﻿namespace Jinx.Dom
+﻿using System;
+using System.Globalization;
+
+namespace Jinx.Dom
 {
     public class JsonNumber : JsonValue
     {
@@ -11,12 +14,22 @@
 
         public string Value
         {
-            get { return this.value; }
+            get { return value; }
         }
 
         public bool IsInteger()
         {
-            return this.value.Contains(".") == false;
+            return value.Contains(".") == false;
+        }
+
+        public int ToInt32()
+        {
+            return Int32.Parse(value, CultureInfo.InvariantCulture);
+        }
+
+        public decimal ToDecimal()
+        {
+            return Decimal.Parse(value, CultureInfo.InvariantCulture);
         }
 
         public override int GetHashCode()
