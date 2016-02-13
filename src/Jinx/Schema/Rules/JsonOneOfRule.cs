@@ -33,7 +33,7 @@ namespace Jinx.Schema.Rules
             if (count == 1)
                 return true;
 
-            return callback.Call(value, "The exactly one schema should be valid");
+            return callback.Call(value, "Exactly only one schema should be valid.");
         }
     }
 }

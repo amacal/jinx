@@ -22,7 +22,7 @@ namespace Jinx.Schema.Rules
             if (values.Contains(value))
                 return true;
 
-            return callback.Call(value, "The value should be from the given list");
+            return callback.Call(value, "The value should be from the given list.");
         }
     }
 }

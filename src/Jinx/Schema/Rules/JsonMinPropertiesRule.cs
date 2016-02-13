@@ -21,7 +21,7 @@ namespace Jinx.Schema.Rules
             if (minProperties <= target.Count)
                 return true;
 
-            return callback.Call(value, "The object has too few properties"); ;
+            return callback.Call(value, $"The object cannot have less than {minProperties} properties.");
         }
     }
 }

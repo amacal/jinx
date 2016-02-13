@@ -21,7 +21,7 @@ namespace Jinx.Schema.Rules
             if (maxItems >= target.Count)
                 return true;
 
-            return callback.Call(value, $"The array cannot have more than {maxItems} items");
+            return callback.Call(value, $"The array cannot have more than {maxItems} items.");
         }
     }
 }

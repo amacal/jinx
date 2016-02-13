@@ -29,7 +29,7 @@ namespace Jinx.Schema.Rules
             foreach (Regex pattern in items.Keys)
                 foreach (string property in target.GetKeys().Where(x => pattern.IsMatch(x)))
                     if (items[pattern].IsValid(definitions, target.Get(property), callback) == false)
-                        return false;
+                        return callback.Call($".{property}", value, "The property is not valid.");
 
             return true;
         }

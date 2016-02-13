@@ -14,5 +14,20 @@ namespace Jinx.Schema
             this.value = value;
             this.description = description;
         }
+
+        public JsonSchemaPath Path
+        {
+            get { return path; }
+        }
+
+        public JsonValue Value
+        {
+            get { return value; }
+        }
+
+        public string Description
+        {
+            get { return description; }
+        }
     }
 }

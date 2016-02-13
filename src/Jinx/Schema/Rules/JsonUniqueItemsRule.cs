@@ -7,15 +7,15 @@ namespace Jinx.Schema.Rules
     {
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
-            HashSet<JsonValue> items = new HashSet<JsonValue>();
             JsonArray target = value as JsonArray;
+            HashSet<JsonValue> items = new HashSet<JsonValue>();
 
             if (target == null)
                 return true;
 
             foreach (JsonValue item in target.Items())
                 if (items.Add(item) == false)
-                    return callback.Call(value, "The array elements should be unique");
+                    return callback.Call(value, "The array elements should be unique.");
 
             return true;
         }
