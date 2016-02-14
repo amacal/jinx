@@ -17,7 +17,7 @@ namespace Jinx.Reader
         public int Index;
         public int Total;
 
-        public void Ensure(bool consistent)
+        public bool Ensure(bool consistent)
         {
             if (Offset >= Length)
             {
@@ -58,12 +58,15 @@ namespace Jinx.Reader
                 Data = copy;
                 Expanded = 0;
             }
+
+            return Offset < Length;
         }
 
-        public void Forward(bool consistent)
+        public bool Forward(bool consistent)
         {
             Offset++;
-            Ensure(consistent);
+
+            return Ensure(consistent);
         }
     }
 }

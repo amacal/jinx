@@ -48,6 +48,10 @@ namespace Jinx.Tests.Reader
         }
 
         [Theory]
+        [InlineData(@"truk")]
+        [InlineData(@"falsi")]
+        [InlineData(@"nuul")]
+        [InlineData(@"[,")]
         [InlineData(@"""\k""")]
         [InlineData(@"""\u004Z""")]
         public void CanHandleSyntaxError(string data)
@@ -56,9 +60,38 @@ namespace Jinx.Tests.Reader
             {
                 JsonReader reader = new JsonReader(stream);
 
-                while (reader.Next())
-                {
-                }
+                while (reader.Next()) { }
+
+                Assert.True(reader.HasError);
+            }
+        }
+
+        [Theory]
+        [InlineData(@"  ")]
+        [InlineData(@"[")]
+        [InlineData(@"[true")]
+        [InlineData(@"[false,")]
+        [InlineData(@"{")]
+        [InlineData(@"{""")]
+        [InlineData(@"{""abc")]
+        [InlineData(@"{""abc""")]
+        [InlineData(@"{""abc"":true")]
+        [InlineData(@"{""abc"":false,")]
+        [InlineData(@"""")]
+        [InlineData(@"""abc")]
+        [InlineData(@"""\")]
+        [InlineData(@"""\u")]
+        [InlineData(@"""\u12")]
+        [InlineData(@"nul")]
+        [InlineData(@"tru")]
+        [InlineData(@"fal")]
+        public void CanHandleStreamError(string data)
+        {
+            using (TextReader stream = new StringReader(data))
+            {
+                JsonReader reader = new JsonReader(stream);
+
+                while (reader.Next()) { }
 
                 Assert.True(reader.HasError);
             }

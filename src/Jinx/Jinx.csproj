@@ -43,8 +43,10 @@
     <Compile Include="Dom\JsonNull.cs" />
     <Compile Include="Dom\JsonNumber.cs" />
     <Compile Include="Dom\JsonObject.cs" />
+    <Compile Include="Reader\JsonReaderStreamException.cs" />
     <Compile Include="Reader\JsonReaderState.cs" />
     <Compile Include="Dom\JsonText.cs" />
+    <Compile Include="Reader\JsonReaderSyntaxException.cs" />
     <Compile Include="Reader\JsonToken.cs" />
     <Compile Include="Dom\JsonTrue.cs" />
     <Compile Include="Dom\JsonValue.cs" />

@@ -42,31 +42,48 @@ namespace Jinx.Reader
 
         public bool Next()
         {
-            switch (state)
+            if (state == JsonReaderState.Final)
+                return false;
+
+            if (state == JsonReaderState.SyntaxError)
+                return false;
+
+            if (state == JsonReaderState.StreamError)
+                return false;
+
+            try
             {
-                case JsonReaderState.Start:
-                    return ReadArrayOrObject();
+                EnsureOrThrow(false);
+                SkipWhiteSpaces();
 
-                case JsonReaderState.BeginObject:
-                    return ReadPropertyOrEndObject();
+                switch (state)
+                {
+                    case JsonReaderState.Start:
+                        return ReadArrayOrObject();
 
-                case JsonReaderState.BeginArray:
-                    return ReadValueOrEndArray();
+                    case JsonReaderState.BeginObject:
+                        return ReadPropertyOrEndObject();
 
-                case JsonReaderState.Property:
-                    return ReadPropertySeparatorAndValue();
+                    case JsonReaderState.BeginArray:
+                        return ReadValueOrEndArray();
 
-                case JsonReaderState.ValueInObject:
-                    return ReadItemSeparatorAndPropertyOrEndObject();
+                    case JsonReaderState.Property:
+                        return ReadPropertySeparatorAndValue();
 
-                case JsonReaderState.ValueInArray:
-                    return ReadItemSeparatorAndValueOrEndArray();
+                    case JsonReaderState.ValueInObject:
+                        return ReadItemSeparatorAndPropertyOrEndObject();
 
-                case JsonReaderState.SyntaxError:
-                    return false;
-
-                case JsonReaderState.StreamError:
-                    return false;
+                    case JsonReaderState.ValueInArray:
+                        return ReadItemSeparatorAndValueOrEndArray();
+                }
+            }
+            catch (JsonReaderStreamException)
+            {
+                state = JsonReaderState.StreamError;
+            }
+            catch (JsonReaderSyntaxException)
+            {
+                state = JsonReaderState.SyntaxError;
             }
 
             return false;
@@ -74,23 +91,14 @@ namespace Jinx.Reader
 
         private bool ReadArrayOrObject()
         {
-            buffer.Ensure(false);
-            SkipWhiteSpaces();
-
             if (ReadValue(JsonReaderState.Final) == false)
-            {
-                state = JsonReaderState.SyntaxError;
-                return false;
-            }
+                throw new JsonReaderSyntaxException();
 
             return true;
         }
 
         private bool ReadPropertyOrEndObject()
         {
-            buffer.Ensure(false);
-            SkipWhiteSpaces();
-
             switch (buffer.Data[buffer.Offset])
             {
                 case '}':
@@ -103,15 +111,11 @@ namespace Jinx.Reader
                     return ReadTextOrProperty(JsonTokenType.Property, JsonReaderState.Property);
             }
 
-            state = JsonReaderState.SyntaxError;
-            return false;
+            throw new JsonReaderSyntaxException();
         }
 
         private bool ReadValueOrEndArray()
         {
-            buffer.Ensure(false);
-            SkipWhiteSpaces();
-
             switch (buffer.Data[buffer.Offset])
             {
                 case ']':
@@ -126,14 +130,8 @@ namespace Jinx.Reader
 
         private bool ReadPropertySeparatorAndValue()
         {
-            buffer.Ensure(false);
-            SkipWhiteSpaces();
-
             if (buffer.Data[buffer.Offset] != ':')
-            {
-                state = JsonReaderState.SyntaxError;
-                return false;
-            }
+                throw new JsonReaderSyntaxException();
 
             buffer.Forward(false);
             SkipWhiteSpaces();
@@ -143,9 +141,6 @@ namespace Jinx.Reader
 
         private bool ReadItemSeparatorAndPropertyOrEndObject()
         {
-            buffer.Ensure(false);
-            SkipWhiteSpaces();
-
             switch (buffer.Data[buffer.Offset])
             {
                 case '}':
@@ -158,14 +153,11 @@ namespace Jinx.Reader
                     return ReadItemSeparatorAndProperty();
             }
 
-            return false;
+            throw new JsonReaderSyntaxException();
         }
 
         private bool ReadItemSeparatorAndValueOrEndArray()
         {
-            buffer.Ensure(false);
-            SkipWhiteSpaces();
-
             switch (buffer.Data[buffer.Offset])
             {
                 case ']':
@@ -178,12 +170,12 @@ namespace Jinx.Reader
                     return ReadItemSeparatorAndValue();
             }
 
-            return false;
+            throw new JsonReaderSyntaxException();
         }
 
         private bool ReadItemSeparatorAndProperty()
         {
-            buffer.Forward(false);
+            ForwardOrThrow(false);
             SkipWhiteSpaces();
 
             if (buffer.Data[buffer.Offset] != '"')
@@ -240,14 +232,14 @@ namespace Jinx.Reader
             int start = buffer.Offset + 1;
             int length = 0;
 
-            buffer.Forward(true);
+            ForwardOrThrow(true);
 
             while (buffer.Data[buffer.Offset] != '"')
             {
                 if (buffer.Data[buffer.Offset] == '\\')
                 {
                     escaped = true;
-                    buffer.Forward(true);
+                    ForwardOrThrow(true);
                     length++;
 
                     char character = buffer.Data[buffer.Offset];
@@ -271,7 +263,7 @@ namespace Jinx.Reader
                     {
                         for (int i = 0; i < 4; i++)
                         {
-                            buffer.Forward(true);
+                            ForwardOrThrow(true);
                             length++;
 
                             character = buffer.Data[buffer.Offset];
@@ -282,20 +274,18 @@ namespace Jinx.Reader
                             if ('a' <= character && character <= 'f')
                                 continue;
 
-                            state = JsonReaderState.SyntaxError;
-                            return false;
+                            throw new JsonReaderSyntaxException();
                         }
 
-                        buffer.Forward(true);
+                        ForwardOrThrow(true);
                         length++;
                         continue;
                     }
 
-                    state = JsonReaderState.SyntaxError;
-                    return false;
+                    throw new JsonReaderSyntaxException();
                 }
 
-                buffer.Forward(true);
+                ForwardOrThrow(true);
                 length++;
             }
 
@@ -327,7 +317,7 @@ namespace Jinx.Reader
             }
 
             if (length == 0)
-                return false;
+                throw new JsonReaderSyntaxException();
 
             state = nextState;
             token = new DataToken(JsonTokenType.Number, buffer.Data, start, length);
@@ -343,8 +333,7 @@ namespace Jinx.Reader
                 return true;
             }
 
-            state = JsonReaderState.SyntaxError;
-            return false;
+            throw new JsonReaderSyntaxException();
         }
 
         private bool ReadFalse(JsonReaderState nextState)
@@ -356,8 +345,7 @@ namespace Jinx.Reader
                 return true;
             }
 
-            state = JsonReaderState.SyntaxError;
-            return false;
+            throw new JsonReaderSyntaxException();
         }
 
         private bool ReadNull(JsonReaderState nextState)
@@ -369,22 +357,28 @@ namespace Jinx.Reader
                 return true;
             }
 
-            state = JsonReaderState.SyntaxError;
-            return false;
+            throw new JsonReaderSyntaxException();
         }
 
         private void SkipWhiteSpaces()
         {
-            while (Char.IsWhiteSpace(buffer.Data[buffer.Offset]))
-            {
-                buffer.Forward(false);
-            }
+            if (buffer.Ensure(false))
+                while (Char.IsWhiteSpace(buffer.Data[buffer.Offset]))
+                    ForwardOrThrow(false);
+
+            if (buffer.Ensure(false))
+                return;
+
+            throw new JsonReaderStreamException();
         }
 
         private bool Skip(string data)
         {
             foreach (char character in data)
             {
+                if (buffer.Ensure(false) == false)
+                    return false;
+
                 if (buffer.Data[buffer.Offset] != character)
                     return false;
 
@@ -392,6 +386,18 @@ namespace Jinx.Reader
             }
 
             return true;
+        }
+
+        private void EnsureOrThrow(bool consistent)
+        {
+            if (buffer.Ensure(consistent) == false)
+                throw new JsonReaderStreamException();
+        }
+
+        private void ForwardOrThrow(bool consistent)
+        {
+            if (buffer.Forward(consistent) == false)
+                throw new JsonReaderStreamException();
         }
     }
 }
