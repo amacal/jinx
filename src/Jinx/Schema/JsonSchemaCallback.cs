@@ -1,4 +1,5 @@
 ﻿using Jinx.Dom;
+using Jinx.Path;
 using System.Collections.Generic;
 
 namespace Jinx.Schema
@@ -11,14 +12,14 @@ namespace Jinx.Schema
         }
 
         private readonly ICollection<JsonSchemaMessage> items;
-        private readonly JsonSchemaPath path;
+        private readonly JsonPath path;
 
         private JsonSchemaCallback()
         {
-            this.path = JsonSchemaPath.Root;
+            this.path = JsonPath.Root;
         }
 
-        private JsonSchemaCallback(JsonSchemaPath path)
+        private JsonSchemaCallback(JsonPath path)
         {
             this.path = path;
         }
@@ -26,12 +27,12 @@ namespace Jinx.Schema
         public JsonSchemaCallback(ICollection<JsonSchemaMessage> items)
         {
             this.items = items;
-            this.path = JsonSchemaPath.Root;
+            this.path = JsonPath.Root;
         }
 
-        public JsonSchemaCallback Drill(string name)
+        public JsonSchemaCallback Scope(JsonPathSegment segment)
         {
-            return new JsonSchemaCallback(path.Drill(name));
+            return new JsonSchemaCallback(path.Append(segment));
         }
 
         public bool Call(JsonValue value, string description)
@@ -44,11 +45,11 @@ namespace Jinx.Schema
             return false;
         }
 
-        public bool Call(string name, JsonValue value, string description)
+        public bool Call(JsonPathSegment segment, JsonValue value, string description)
         {
             if (items != null)
             {
-                items.Add(new JsonSchemaMessage(path.Drill(name), value, description));
+                items.Add(new JsonSchemaMessage(path.Append(segment), value, description));
             }
 
             return false;

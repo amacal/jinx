@@ -1,4 +1,5 @@
 ﻿using Jinx.Dom;
+using Jinx.Path.Segments;
 using System.Collections.Generic;
 
 namespace Jinx.Schema.Rules
@@ -27,7 +28,7 @@ namespace Jinx.Schema.Rules
             foreach (string property in target.GetKeys())
                 if (items.ContainsKey(property))
                     if (items[property].IsValid(definitions, target.Get(property), callback) == false)
-                        return callback.Call($".{property}", value, "The property is not valid.");
+                        return callback.Call(new JsonPropertySegment(property), value, "The property is not valid.");
 
             return true;
         }

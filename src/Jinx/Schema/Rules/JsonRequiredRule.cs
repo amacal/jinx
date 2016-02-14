@@ -1,4 +1,5 @@
 ﻿using Jinx.Dom;
+using Jinx.Path.Segments;
 using System.Collections.Generic;
 
 namespace Jinx.Schema.Rules
@@ -26,7 +27,7 @@ namespace Jinx.Schema.Rules
 
             foreach (string property in properties)
                 if (target.Contains(property) == false)
-                    return callback.Call($".{property}", value, "The property is required.");
+                    return callback.Call(new JsonPropertySegment(property), value, "The property is required.");
 
             return true;
         }

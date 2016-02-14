@@ -1,4 +1,5 @@
 ﻿using Jinx.Dom;
+using Jinx.Path.Segments;
 using System.Collections.Generic;
 
 namespace Jinx.Schema.Rules
@@ -35,12 +36,12 @@ namespace Jinx.Schema.Rules
                 if (target.Contains(property))
                     foreach (string dependency in byName[property])
                         if (target.Contains(dependency) == false)
-                            return callback.Call($".{property}", value, "The dependency is not valid.");
+                            return callback.Call(new JsonPropertySegment(property), value, "The dependency is not valid.");
 
             foreach (string property in byRule.Keys)
                 if (target.Contains(property))
                     if (byRule[property].IsValid(definitions, value, callback) == false)
-                        return callback.Call($".{property}", value, "The dependency is not valid.");
+                        return callback.Call(new JsonPropertySegment(property), value, "The dependency is not valid.");
 
             return true;
         }

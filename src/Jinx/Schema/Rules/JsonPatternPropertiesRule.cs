@@ -1,4 +1,5 @@
 ﻿using Jinx.Dom;
+using Jinx.Path.Segments;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -29,7 +30,7 @@ namespace Jinx.Schema.Rules
             foreach (Regex pattern in items.Keys)
                 foreach (string property in target.GetKeys().Where(x => pattern.IsMatch(x)))
                     if (items[pattern].IsValid(definitions, target.Get(property), callback) == false)
-                        return callback.Call($".{property}", value, "The property is not valid.");
+                        return callback.Call(new JsonPropertySegment(property), value, "The property is not valid.");
 
             return true;
         }

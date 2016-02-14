@@ -1,4 +1,5 @@
 ﻿using Jinx.Dom;
+using Jinx.Path.Segments;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -52,11 +53,11 @@ namespace Jinx.Schema.Rules
                 return true;
 
             if (rule == null && left.Count > 0)
-                return callback.Call($".{left[0]}", value, "The property presence is not allowed.");
+                return callback.Call(new JsonPropertySegment(left[0]), value, "The property presence is not allowed.");
 
             foreach (string property in left)
                 if (rule.IsValid(definitions, target.Get(property), callback) == false)
-                    return callback.Call($".{property}", value, "The property presence is not allowed.");
+                    return callback.Call(new JsonPropertySegment(property), value, "The property presence is not allowed.");
 
             return true;
         }
