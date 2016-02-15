@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Jinx.Reader
+namespace Jinx.Reader.Exceptions
 {
     [Serializable]
     public class JsonReaderStreamException : Exception

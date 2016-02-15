@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Jinx.Reader
 {
-    public struct JsonReaderBuffer
+    public class JsonReaderBuffer
     {
         public TextReader Stream;
 

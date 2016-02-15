@@ -29,7 +29,7 @@ namespace Jinx.Dom
 
         public decimal ToDecimal()
         {
-            return Decimal.Parse(value, CultureInfo.InvariantCulture);
+            return Decimal.Parse(value, NumberStyles.Float, CultureInfo.InvariantCulture);
         }
 
         public override int GetHashCode()

@@ -1,4 +1,6 @@
 ﻿using Jinx.Reader;
+using System;
+using System.Globalization;
 using System.IO;
 using Xunit;
 
@@ -34,7 +36,7 @@ namespace Jinx.Tests.Reader
         [InlineData(@"""\\""", "\\")]
         [InlineData(@"""\/""", "/")]
         [InlineData(@"""\""""", "\"")]
-        public void CanReadValue(string data, string value)
+        public void CanReadTextValue(string data, string value)
         {
             using (TextReader stream = new StringReader(data))
             {
@@ -43,6 +45,28 @@ namespace Jinx.Tests.Reader
                 while (reader.Next())
                 {
                     Assert.Equal(value, reader.Token.GetString());
+                }
+            }
+        }
+
+        [Theory]
+        [InlineData(@"1", 1)]
+        [InlineData(@"1.0", 1)]
+        [InlineData(@"1.5", 1.5)]
+        [InlineData(@"0.15", 0.15)]
+        [InlineData(@"-1", -1)]
+        [InlineData(@"1e2", 100)]
+        [InlineData(@"1.1e+3", 1100)]
+        [InlineData(@"1.2e-3", 0.0012)]
+        public void CanReadNumberValue(string data, decimal value)
+        {
+            using (TextReader stream = new StringReader(data))
+            {
+                JsonReader reader = new JsonReader(stream);
+
+                while (reader.Next())
+                {
+                    Assert.Equal(value, Decimal.Parse(reader.Token.GetString(), NumberStyles.Float, CultureInfo.InvariantCulture));
                 }
             }
         }

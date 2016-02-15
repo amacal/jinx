@@ -1,4 +1,6 @@
-﻿using Jinx.Reader.Tokens;
+﻿using Jinx.Reader.Exceptions;
+using Jinx.Reader.Parsers;
+using Jinx.Reader.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -208,100 +210,17 @@ namespace Jinx.Reader
 
         private bool ReadTextOrProperty(JsonTokenType textOrProperty, JsonReaderState nextState)
         {
-            char character;
-            bool escaped = false;
-
-            int start = buffer.Offset + 1;
-            int length = 0;
-
-            Action forward = () =>
-            {
-                ForwardOrThrow(true);
-                length++;
-            };
-
-            ForwardOrThrow(true);
-
-            while (buffer.Data[buffer.Offset] != '"')
-            {
-                if (buffer.Data[buffer.Offset] != '\\')
-                {
-                    forward();
-                    continue;
-                }
-
-                escaped = true;
-                forward();
-
-                character = buffer.Data[buffer.Offset];
-
-                switch (character)
-                {
-                    case 'n':
-                    case 't':
-                    case 'r':
-                    case 'b':
-                    case 'f':
-                    case '/':
-                    case '\\':
-                    case '\"':
-                        forward();
-                        continue;
-                }
-
-                if (character != 'u')
-                    throw new JsonReaderSyntaxException();
-
-                for (int i = 0; i < 4; i++)
-                {
-                    forward();
-                    character = buffer.Data[buffer.Offset];
-
-                    if ('0' <= character && character <= '9')
-                        continue;
-
-                    if ('a' <= character && character <= 'f')
-                        continue;
-
-                    throw new JsonReaderSyntaxException();
-                }
-
-                forward();
-                continue;
-            }
-
-            buffer.Forward(true);
+            token = TextParser.Parse(buffer, textOrProperty);
             state = nextState;
-
-            if (escaped)
-                token = new EscapingToken(textOrProperty, buffer.Data, start, length);
-            else
-                token = new DataToken(textOrProperty, buffer.Data, start, length);
 
             return true;
         }
 
         private bool ReadNumber(JsonReaderState nextState)
         {
-            int start = buffer.Offset;
-            int length = 0;
-
-            Func<char, bool> isAcceptable = character =>
-            {
-                return Char.IsDigit(character) || character == '.' || character == '-' || character == 'e';
-            };
-
-            while (isAcceptable.Invoke(buffer.Data[buffer.Offset]))
-            {
-                buffer.Forward(true);
-                length++;
-            }
-
-            if (length == 0)
-                throw new JsonReaderSyntaxException();
-
+            token = NumberParser.Parse(buffer);
             state = nextState;
-            token = new DataToken(JsonTokenType.Number, buffer.Data, start, length);
+
             return true;
         }
 
