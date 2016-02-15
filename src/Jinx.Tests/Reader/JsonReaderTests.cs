@@ -50,14 +50,16 @@ namespace Jinx.Tests.Reader
         }
 
         [Theory]
+        [InlineData(@"0", 0)]
         [InlineData(@"1", 1)]
         [InlineData(@"1.0", 1)]
         [InlineData(@"1.5", 1.5)]
         [InlineData(@"0.15", 0.15)]
+        [InlineData(@"-0", 0)]
         [InlineData(@"-1", -1)]
         [InlineData(@"1e2", 100)]
         [InlineData(@"1.1e+3", 1100)]
-        [InlineData(@"1.2e-3", 0.0012)]
+        [InlineData(@"1.2E-3", 0.0012)]
         public void CanReadNumberValue(string data, decimal value)
         {
             using (TextReader stream = new StringReader(data))
@@ -86,6 +88,17 @@ namespace Jinx.Tests.Reader
         [InlineData(@"{""a"":true1]")]
         [InlineData(@"""\k""")]
         [InlineData(@"""\u004Z""")]
+        [InlineData(@"00")]
+        [InlineData(@"+1")]
+        [InlineData(@"0x0d")]
+        [InlineData(@"0b01")]
+        [InlineData(@"1f")]
+        [InlineData(@"0c07")]
+        [InlineData(@"1..2")]
+        [InlineData(@"1.e1")]
+        [InlineData(@"1.0e+-1")]
+        [InlineData(@"1.0e-+1")]
+        [InlineData(@"1.0e+h")]
         public void CanHandleSyntaxError(string data)
         {
             using (TextReader stream = new StringReader(data))
@@ -117,6 +130,10 @@ namespace Jinx.Tests.Reader
         [InlineData(@"nul")]
         [InlineData(@"tru")]
         [InlineData(@"fal")]
+        [InlineData(@"-")]
+        [InlineData(@"1.")]
+        [InlineData(@"1e")]
+        [InlineData(@"1e+")]
         public void CanHandleStreamError(string data)
         {
             using (TextReader stream = new StringReader(data))

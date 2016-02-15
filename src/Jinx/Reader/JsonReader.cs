@@ -38,7 +38,8 @@ namespace Jinx.Reader
             get
             {
                 return state == JsonReaderState.SyntaxError
-                    || state == JsonReaderState.StreamError;
+                    || state == JsonReaderState.StreamError
+                    || state == JsonReaderState.Final && buffer.Ensure(true);
             }
         }
 
