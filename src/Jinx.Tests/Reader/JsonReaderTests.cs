@@ -9,6 +9,8 @@ namespace Jinx.Tests.Reader
     public class JsonReaderTests
     {
         [Theory]
+        [InlineData(@"0 ")]
+        [InlineData(@" 0")]
         [InlineData(@"{}")]
         [InlineData(@"[]")]
         [InlineData(@"""abc""")]

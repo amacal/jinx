@@ -17,7 +17,9 @@ namespace Jinx.Reader.Parsers
 
             Action forward = () =>
             {
-                ForwardOrThrow(buffer, true);
+                if (buffer.Forward(true) == false)
+                    throw new JsonReaderStreamException();
+
                 length++;
             };
 
@@ -86,12 +88,6 @@ namespace Jinx.Reader.Parsers
                 throw new JsonReaderSyntaxException();
 
             return new DataToken(JsonTokenType.Number, buffer.Data, start, length);
-        }
-
-        private static void ForwardOrThrow(JsonReaderBuffer buffer, bool consistent)
-        {
-            if (buffer.Forward(consistent) == false)
-                throw new JsonReaderStreamException();
         }
     }
 }
