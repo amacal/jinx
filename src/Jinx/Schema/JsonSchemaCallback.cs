@@ -19,9 +19,10 @@ namespace Jinx.Schema
             this.path = JsonPath.Root;
         }
 
-        private JsonSchemaCallback(JsonPath path)
+        private JsonSchemaCallback(JsonPath path, bool items)
         {
             this.path = path;
+            this.items = items ? new List<JsonSchemaMessage>() : null;
         }
 
         public JsonSchemaCallback(ICollection<JsonSchemaMessage> items)
@@ -32,35 +33,33 @@ namespace Jinx.Schema
 
         public JsonSchemaCallback Scope(JsonPathSegment segment)
         {
-            return new JsonSchemaCallback(path.Append(segment));
+            return new JsonSchemaCallback(path.Append(segment), items != null);
         }
 
         public bool Call(JsonValue value, string description)
         {
-            if (items != null)
-            {
-                items.Add(new JsonSchemaMessage(path, value, description));
-            }
+            items?.Add(new JsonSchemaMessage(path, value, description));
 
             return false;
         }
 
         public bool Call(JsonPathSegment segment, JsonValue value, string description)
         {
-            if (items != null)
-            {
-                items.Add(new JsonSchemaMessage(path.Append(segment), value, description));
-            }
+            items?.Add(new JsonSchemaMessage(path.Append(segment), value, description));
 
             return false;
         }
 
         public void Add(JsonSchemaMessage message)
         {
-            if (items != null)
-            {
-                items.Add(message);
-            }
+            items?.Add(message);
+        }
+
+        public void Add(JsonSchemaCallback scope)
+        {
+            if (scope.items != null && items != null)
+                foreach (JsonSchemaMessage item in scope.items)
+                    items.Add(item);
         }
     }
 }

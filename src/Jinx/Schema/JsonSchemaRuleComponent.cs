@@ -19,11 +19,13 @@ namespace Jinx.Schema
 
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
+            bool succeeded = true;
+
             foreach (JsonSchemaRule rule in rules)
                 if (rule.IsValid(definitions, value, callback) == false)
-                    return false;
+                    succeeded = false;
 
-            return true;
+            return succeeded;
         }
     }
 }
