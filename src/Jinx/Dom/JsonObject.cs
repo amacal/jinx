@@ -49,5 +49,10 @@ namespace Jinx.Dom
         {
             return items.Keys;
         }
+
+        public override string ToString()
+        {
+            return "object";
+        }
     }
 }

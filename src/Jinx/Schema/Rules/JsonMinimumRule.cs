@@ -27,9 +27,9 @@ namespace Jinx.Schema.Rules
                 return true;
 
             if (exclusiveMinimum == false)
-                return callback.Call(value, $"The number should be greater than {minimum}.");
+                return callback.Fail(value, $"The number should be greater than {minimum}.");
 
-            return callback.Call(value, $"The number should be greater than or equal to {minimum}.");
+            return callback.Fail(value, $"The number should be greater than or equal to {minimum}.");
         }
     }
 }

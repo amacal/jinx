@@ -23,7 +23,13 @@
         {
             JsonText other = obj as JsonText;
 
-            return other.Value == Value;
+            return other != null
+                && other.Value == Value;
+        }
+
+        public override string ToString()
+        {
+            return $@"""{value}""";
         }
     }
 }

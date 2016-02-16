@@ -16,7 +16,7 @@ namespace Jinx.Schema.Rules
             if (rule.IsValid(definitions, value, JsonSchemaCallback.Ignore()) == false)
                 return true;
 
-            return callback.Call(value, "The schema should not be valid.");
+            return callback.Fail(value, "The NOT schema should not be valid.");
         }
     }
 }

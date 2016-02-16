@@ -1,4 +1,5 @@
 ﻿using Jinx.Dom;
+using Jinx.Path;
 using Jinx.Path.Segments;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -41,6 +42,7 @@ namespace Jinx.Schema.Rules
             if (target == null)
                 return true;
 
+            bool succeeded = true;
             List<string> left = new List<string>(target.GetKeys());
 
             foreach (string property in properties)
@@ -53,13 +55,26 @@ namespace Jinx.Schema.Rules
                 return true;
 
             if (rule == null && left.Count > 0)
-                return callback.Call(new JsonPropertySegment(left[0]), value, "The property presence is not allowed.");
+            {
+                foreach (string property in left)
+                    callback.Fail(new JsonPropertySegment(property), value, "The presence of additional property is not allowed.");
+
+                return false;
+            }
 
             foreach (string property in left)
-                if (rule.IsValid(definitions, target.Get(property), callback) == false)
-                    return callback.Call(new JsonPropertySegment(property), value, "The property presence is not allowed.");
+            {
+                JsonPathSegment segment = new JsonPropertySegment(property);
+                JsonSchemaCallback scope = callback.Scope(segment);
 
-            return true;
+                if (rule.IsValid(definitions, target.Get(property), scope) == false)
+                {
+                    callback.Add(scope);
+                    succeeded = false;
+                }
+            }
+
+            return succeeded;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Jinx.Schema.Rules
             if (maxProperties >= target.Count)
                 return true;
 
-            return callback.Call(value, $"The object cannot have more than {maxProperties} properties.");
+            return callback.Fail(value, $"The object cannot have more than {maxProperties} properties.");
         }
     }
 }

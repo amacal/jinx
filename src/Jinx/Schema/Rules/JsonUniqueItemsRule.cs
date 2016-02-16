@@ -1,4 +1,5 @@
 ﻿using Jinx.Dom;
+using System;
 using System.Collections.Generic;
 
 namespace Jinx.Schema.Rules
@@ -8,14 +9,24 @@ namespace Jinx.Schema.Rules
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
             JsonArray target = value as JsonArray;
-            HashSet<JsonValue> items = new HashSet<JsonValue>();
 
             if (target == null)
                 return true;
 
+            HashSet<JsonValue> found = new HashSet<JsonValue>();
+            List<JsonValue> repeated = new List<JsonValue>();
+
             foreach (JsonValue item in target.Items())
-                if (items.Add(item) == false)
-                    return callback.Call(value, "The array elements should be unique.");
+                if (found.Add(item) == false)
+                    repeated.Add(item);
+
+            if (repeated.Count > 0)
+            {
+                string items = String.Join(",", repeated);
+                string message = $"The array elements should be unique. Repeated elements: [{items}]";
+
+                return callback.Fail(value, message);
+            }
 
             return true;
         }

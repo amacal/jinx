@@ -19,11 +19,13 @@ namespace Jinx.Schema.Rules
 
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
+            // TODO: How to right pass meaningful messages?
+
             foreach (JsonSchemaRule rule in rules)
                 if (rule.IsValid(definitions, value, JsonSchemaCallback.Ignore()))
                     return true;
 
-            return callback.Call(value, "At least one schema should be valid.");
+            return callback.Fail(value, "At least one schema should be valid.");
         }
     }
 }

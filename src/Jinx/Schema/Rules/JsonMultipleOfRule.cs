@@ -25,7 +25,7 @@ namespace Jinx.Schema.Rules
             if (integer == division)
                 return true;
 
-            return callback.Call(value, $"The number should be multiplication of {multipleOf}.");
+            return callback.Fail(value, $"The number should be multiplication of {multipleOf}.");
         }
     }
 }

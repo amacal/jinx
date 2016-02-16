@@ -22,7 +22,7 @@ namespace Jinx.Schema.Rules
             foreach (JsonSchemaMessage message in messages)
                 callback.Add(message);
 
-            return callback.Call(value, $"Referenced schema '{reference}' is invalid.");
+            return callback.Fail(value, $"Referenced schema '{reference}' is invalid.");
         }
     }
 }

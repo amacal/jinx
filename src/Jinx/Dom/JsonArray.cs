@@ -42,5 +42,10 @@ namespace Jinx.Dom
         {
             return items.IndexOf(value);
         }
+
+        public override string ToString()
+        {
+            return "array";
+        }
     }
 }

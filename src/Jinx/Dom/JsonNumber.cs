@@ -44,5 +44,10 @@ namespace Jinx.Dom
             return other != null
                 && other.value == Value;
         }
+
+        public override string ToString()
+        {
+            return value;
+        }
     }
 }

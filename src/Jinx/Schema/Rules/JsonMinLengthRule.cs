@@ -21,7 +21,7 @@ namespace Jinx.Schema.Rules
             if (text.Value.Length >= minLength)
                 return true;
 
-            return callback.Call(value, $"The text cannot be shorter than {minLength} characters.");
+            return callback.Fail(value, $"The text cannot be shorter than {minLength} characters.");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Jinx.Dom;
+using System;
 using System.Collections.Generic;
 
 namespace Jinx.Schema.Rules
@@ -22,7 +23,10 @@ namespace Jinx.Schema.Rules
             if (values.Contains(value))
                 return true;
 
-            return callback.Call(value, "The value should be from the given list.");
+            string list = String.Join(",", values);
+            string message = $"The value should be from the given list: [{list}]";
+
+            return callback.Fail(value, message);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Jinx.Dom;
+using System;
 using System.Collections.Generic;
 
 namespace Jinx.Schema.Rules
@@ -23,7 +24,10 @@ namespace Jinx.Schema.Rules
                 if (HasType(value, type))
                     return true;
 
-            return callback.Call(value, "The type is not valid.");
+            string allowed = String.Join(",", types);
+            string message = $"The type is not valid. Allowed types: [{allowed}]";
+
+            return callback.Fail(value, message);
         }
 
         private static bool HasType(JsonValue value, string type)

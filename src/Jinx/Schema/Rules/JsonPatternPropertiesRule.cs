@@ -1,4 +1,5 @@
 ﻿using Jinx.Dom;
+using Jinx.Path;
 using Jinx.Path.Segments;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,17 +23,29 @@ namespace Jinx.Schema.Rules
 
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
+            bool succeeded = true;
             JsonObject target = value as JsonObject;
 
             if (target == null)
                 return true;
 
             foreach (Regex pattern in items.Keys)
+            {
                 foreach (string property in target.GetKeys().Where(x => pattern.IsMatch(x)))
-                    if (items[pattern].IsValid(definitions, target.Get(property), callback) == false)
-                        return callback.Call(new JsonPropertySegment(property), value, "The property is not valid.");
+                {
+                    JsonSchemaRule rule = items[pattern];
+                    JsonPathSegment segment = new JsonPropertySegment(property);
+                    JsonSchemaCallback scope = callback.Scope(segment);
 
-            return true;
+                    if (rule.IsValid(definitions, target.Get(property), callback) == false)
+                    {
+                        callback.Add(scope);
+                        succeeded = false;
+                    }
+                }
+            }
+
+            return succeeded;
         }
     }
 }

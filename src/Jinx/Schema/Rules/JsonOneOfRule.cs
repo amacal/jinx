@@ -19,6 +19,7 @@ namespace Jinx.Schema.Rules
 
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
+            // TODO: How to return meaningful messages?
             int count = 0;
 
             foreach (JsonSchemaRule rule in rules)
@@ -33,7 +34,7 @@ namespace Jinx.Schema.Rules
             if (count == 1)
                 return true;
 
-            return callback.Call(value, "Exactly only one schema should be valid.");
+            return callback.Fail(value, "Exactly only one schema should be valid.");
         }
     }
 }

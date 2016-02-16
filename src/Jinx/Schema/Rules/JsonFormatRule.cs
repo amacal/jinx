@@ -27,6 +27,8 @@ namespace Jinx.Schema.Rules
                     return IsIpAddressV6(value, callback);
 
                 case "date-time":
+                    return IsDateTime(value, callback);
+
                 case "email":
 
                 default:
@@ -45,7 +47,7 @@ namespace Jinx.Schema.Rules
             if (Uri.TryCreate(target.Value, UriKind.RelativeOrAbsolute, out uri))
                 return true;
 
-            return callback.Call(value, "The value should be relative or absolute uri.");
+            return callback.Fail(value, "The value should be a relative or absolute uri.");
         }
 
         private static bool IsIpAddressV4(JsonValue value, JsonSchemaCallback callback)
@@ -59,7 +61,7 @@ namespace Jinx.Schema.Rules
             if (Regex.IsMatch(target.Value, pattern))
                 return true;
 
-            return callback.Call(value, "The value should be a valid IP4 address.");
+            return callback.Fail(value, "The value should be a valid IP4 address.");
         }
 
         private static bool IsIpAddressV6(JsonValue value, JsonSchemaCallback callback)
@@ -73,7 +75,21 @@ namespace Jinx.Schema.Rules
             if (Regex.IsMatch(target.Value, pattern))
                 return true;
 
-            return callback.Call(value, "The value should be a valid IP6 address.");
+            return callback.Fail(value, "The value should be a valid IP6 address.");
+        }
+
+        private static bool IsDateTime(JsonValue value, JsonSchemaCallback callback)
+        {
+            string pattern = @"^([0-9]+)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])([Tt]([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|60)((\.[0-9]+)?((([Zz])|([\+|\-]([01][0-9]|2[0-3]):[0-5][0-9])))?)?)?$";
+            JsonText target = value as JsonText;
+
+            if (target == null)
+                return true;
+
+            if (Regex.IsMatch(target.Value, pattern))
+                return true;
+
+            return callback.Fail(value, "The value should be a valid date or date-time.");
         }
     }
 }

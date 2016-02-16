@@ -21,7 +21,7 @@ namespace Jinx.Schema.Rules
             if (target.Count <= items)
                 return true;
 
-            return callback.Call(value, "The array should not contain additional items.");
+            return callback.Fail(value, $"The array is in tuple mode and cannot contain additional items. Tuple size: {items}. Array size: {target.Count}.");
         }
     }
 }

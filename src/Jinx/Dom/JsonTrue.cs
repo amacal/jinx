@@ -11,5 +11,10 @@
         {
             return obj is JsonTrue;
         }
+
+        public override string ToString()
+        {
+            return "true";
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Jinx.Dom
 {
-    public class JsonValue
+    public abstract class JsonValue
     {
     }
 }

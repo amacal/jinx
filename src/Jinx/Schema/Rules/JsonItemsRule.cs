@@ -1,4 +1,5 @@
 ﻿using Jinx.Dom;
+using Jinx.Path;
 using Jinx.Path.Segments;
 using System.Collections.Generic;
 
@@ -26,22 +27,47 @@ namespace Jinx.Schema.Rules
 
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
+            bool succeeded = true;
             JsonArray target = value as JsonArray;
 
             if (target == null)
                 return true;
 
             if (schema != null)
+            {
                 foreach (JsonValue item in target.Items())
-                    if (schema.IsValid(definitions, item, callback) == false)
-                        return callback.Call(new JsonIndexSegment(target.IndexOf(item)), value, "The array element is not valid according to the item schema.");
+                {
+                    int index = target.IndexOf(item);
+                    JsonPathSegment segment = new JsonIndexSegment(index);
+                    JsonSchemaCallback scope = callback.Scope(segment);
+
+                    if (schema.IsValid(definitions, item, scope) == false)
+                    {
+                        callback.Add(scope);
+                        succeeded = false;
+                    }
+                }
+            }
 
             if (tuples != null)
+            {
                 for (int i = 0; i < tuples.Count && i < target.Count; i++)
-                    if (tuples[i].IsValid(definitions, target.Get(i), callback) == false)
-                        return callback.Call(new JsonIndexSegment(i), value, "The array element is not valid according to the tuple schema.");
+                {
+                    JsonPathSegment segment = new JsonIndexSegment(i);
+                    JsonSchemaCallback scope = callback.Scope(segment);
 
-            return true;
+                    JsonValue item = target.Get(i);
+                    JsonSchemaRule rule = tuples[i];
+
+                    if (rule.IsValid(definitions, item, scope) == false)
+                    {
+                        callback.Add(scope);
+                        succeeded = false;
+                    }
+                }
+            }
+
+            return succeeded;
         }
     }
 }

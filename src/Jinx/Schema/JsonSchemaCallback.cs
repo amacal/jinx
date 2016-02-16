@@ -36,14 +36,14 @@ namespace Jinx.Schema
             return new JsonSchemaCallback(path.Append(segment), items != null);
         }
 
-        public bool Call(JsonValue value, string description)
+        public bool Fail(JsonValue value, string description)
         {
             items?.Add(new JsonSchemaMessage(path, value, description));
 
             return false;
         }
 
-        public bool Call(JsonPathSegment segment, JsonValue value, string description)
+        public bool Fail(JsonPathSegment segment, JsonValue value, string description)
         {
             items?.Add(new JsonSchemaMessage(path.Append(segment), value, description));
 

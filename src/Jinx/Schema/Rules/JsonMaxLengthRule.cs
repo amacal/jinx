@@ -21,7 +21,7 @@ namespace Jinx.Schema.Rules
             if (text.Value.Length <= maxLength)
                 return true;
 
-            return callback.Call(value, $"The text cannot be longer than {maxLength} characters.");
+            return callback.Fail(value, $"The text cannot be longer than {maxLength} characters.");
         }
     }
 }

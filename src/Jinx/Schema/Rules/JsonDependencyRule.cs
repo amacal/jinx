@@ -1,4 +1,5 @@
 ﻿using Jinx.Dom;
+using Jinx.Path;
 using Jinx.Path.Segments;
 using System.Collections.Generic;
 
@@ -27,6 +28,7 @@ namespace Jinx.Schema.Rules
 
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
+            bool succeeded = true;
             JsonObject target = value.As<JsonObject>();
 
             if (target == null)
@@ -36,14 +38,30 @@ namespace Jinx.Schema.Rules
                 if (target.Contains(property))
                     foreach (string dependency in byName[property])
                         if (target.Contains(dependency) == false)
-                            return callback.Call(new JsonPropertySegment(property), value, "The dependency is not valid.");
+                        {
+                            JsonPathSegment segment = new JsonPropertySegment(property);
+
+                            callback.Fail(segment, value, $"The dependency is not valid. Missing property: {dependency}.");
+                            succeeded = false;
+                        }
 
             foreach (string property in byRule.Keys)
+            {
                 if (target.Contains(property))
-                    if (byRule[property].IsValid(definitions, value, callback) == false)
-                        return callback.Call(new JsonPropertySegment(property), value, "The dependency is not valid.");
+                {
+                    JsonSchemaRule rule = byRule[property];
+                    JsonPathSegment segment = new JsonPropertySegment(property);
+                    JsonSchemaCallback scope = callback.Scope(segment);
 
-            return true;
+                    if (rule.IsValid(definitions, value, scope) == false)
+                    {
+                        callback.Add(scope);
+                        succeeded = false;
+                    }
+                }
+            }
+
+            return succeeded;
         }
     }
 }

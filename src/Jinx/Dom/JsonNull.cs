@@ -11,5 +11,10 @@
         {
             return obj is JsonNull;
         }
+
+        public override string ToString()
+        {
+            return "null";
+        }
     }
 }

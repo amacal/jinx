@@ -22,7 +22,7 @@ namespace Jinx.Schema.Rules
             if (pattern.IsMatch(target.Value))
                 return true;
 
-            return callback.Call(value, "The value does not match the pattern.");
+            return callback.Fail(value, "The value does not match the pattern.");
         }
     }
 }

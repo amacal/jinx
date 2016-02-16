@@ -1,7 +1,7 @@
 ﻿using Jinx.Dom;
+using Jinx.Path;
 using Jinx.Path.Segments;
 using System.Collections.Generic;
-using Jinx.Path;
 
 namespace Jinx.Schema.Rules
 {
@@ -28,18 +28,20 @@ namespace Jinx.Schema.Rules
                 return true;
 
             foreach (string property in target.GetKeys())
+            {
                 if (items.ContainsKey(property))
                 {
                     JsonPathSegment segment = new JsonPropertySegment(property);
                     JsonSchemaCallback scope = callback.Scope(segment);
+                    JsonSchemaRule rule = items[property];
 
-                    if (items[property].IsValid(definitions, target.Get(property), scope) == false)
+                    if (rule.IsValid(definitions, target.Get(property), scope) == false)
                     {
-                        callback.Call(segment, value, "The property is not valid.");
                         callback.Add(scope);
                         succeeded = false;
                     }
                 }
+            }
 
             return succeeded;
         }
