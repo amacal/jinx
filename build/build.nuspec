@@ -11,7 +11,7 @@
   <projectUrl>https://github.com/amacal/jinx</projectUrl>
   <iconUrl>https://raw.githubusercontent.com/amacal/jinx/master/icon.png</iconUrl>
   <requireLicenseAcceptance>false</requireLicenseAcceptance>
-  <description>A library with supports DOM and JsonSchema.</description>
+  <description>A library which supports DOM and JsonSchema.</description>
   <releaseNotes>Initial version</releaseNotes>
   <copyright>Copyright Adrian Macal 2016</copyright>    
   <tags>json dom schema</tags>
