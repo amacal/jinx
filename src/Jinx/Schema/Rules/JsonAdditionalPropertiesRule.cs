@@ -57,20 +57,23 @@ namespace Jinx.Schema.Rules
             if (rule == null && left.Count > 0)
             {
                 foreach (string property in left)
-                    callback.Fail(new JsonPropertySegment(property), value, "The presence of additional property is not allowed.");
+                    callback.Fail(new JsonPropertySegment(property), value, "The presence of any additional property is not allowed.");
 
                 return false;
             }
 
-            foreach (string property in left)
+            if (rule != null)
             {
-                JsonPathSegment segment = new JsonPropertySegment(property);
-                JsonSchemaCallback scope = callback.Scope(segment);
-
-                if (rule.IsValid(definitions, target.Get(property), scope) == false)
+                foreach (string property in left)
                 {
-                    callback.Add(scope);
-                    succeeded = false;
+                    JsonPathSegment segment = new JsonPropertySegment(property);
+                    JsonSchemaCallback scope = callback.Scope(segment);
+
+                    if (rule.IsValid(definitions, target.Get(property), scope) == false)
+                    {
+                        callback.Add(scope);
+                        succeeded = false;
+                    }
                 }
             }
 
