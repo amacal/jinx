@@ -1,6 +1,7 @@
 ﻿using Jinx.Dom;
 using Jinx.Path;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Jinx.Schema
 {
@@ -29,6 +30,16 @@ namespace Jinx.Schema
         {
             this.items = items;
             this.path = JsonPath.Root;
+        }
+
+        public int Count
+        {
+            get { return items?.Count ?? 0; }
+        }
+
+        public JsonSchemaCallback Scope()
+        {
+            return new JsonSchemaCallback(path, items != null);
         }
 
         public JsonSchemaCallback Scope(JsonPathSegment segment)

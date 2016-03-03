@@ -90,6 +90,7 @@
     <Compile Include="Schema\Factories\JsonUniqueItemsRuleFactory.cs" />
     <Compile Include="Schema\JsonSchema.cs" />
     <Compile Include="Schema\JsonSchemaCallback.cs" />
+    <Compile Include="Schema\JsonSchemaCallbackBuilder.cs" />
     <Compile Include="Schema\JsonSchemaDefinitions.cs" />
     <Compile Include="Schema\JsonSchemaException.cs" />
     <Compile Include="Schema\JsonSchemaMessage.cs" />

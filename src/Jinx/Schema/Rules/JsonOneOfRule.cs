@@ -19,13 +19,18 @@ namespace Jinx.Schema.Rules
 
         public override bool IsValid(JsonSchemaDefinitions definitions, JsonValue value, JsonSchemaCallback callback)
         {
-            // TODO: How to return meaningful messages?
             int count = 0;
+            List<JsonSchemaCallback> scopes = new List<JsonSchemaCallback>();
 
             foreach (JsonSchemaRule rule in rules)
             {
-                if (rule.IsValid(definitions, value, JsonSchemaCallback.Ignore()))
+                JsonSchemaCallback scope = callback.Scope();
+
+                if (rule.IsValid(definitions, value, scope))
                     count++;
+
+                if (scope.Count > 0)
+                    scopes.Add(scope);
 
                 if (count > 1)
                     break;
@@ -34,7 +39,13 @@ namespace Jinx.Schema.Rules
             if (count == 1)
                 return true;
 
-            return callback.Fail(value, "Exactly only one schema should be valid.");
+            if (count > 1)
+                return callback.Fail(value, $"Exactly one schema should be valid, but {count} schemas were valid.");
+
+            foreach (JsonSchemaCallback scope in scopes)
+                callback.Add(scope);
+
+            return callback.Fail(value, "Exactly one schema should be valid, but nothing was valid.");
         }
     }
 }
