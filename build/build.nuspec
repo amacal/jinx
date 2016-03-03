@@ -3,7 +3,7 @@
   <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">    
   <id>jinx</id>
   <title>Jinx Json Library</title>
-  <version>1.0</version>
+  <version>1.1</version>
   <authors>Adrian Macal</authors>
   <owners>Adrian Macal</owners>
   <summary>Json library</summary>
@@ -12,7 +12,6 @@
   <iconUrl>https://raw.githubusercontent.com/amacal/jinx/master/icon.png</iconUrl>
   <requireLicenseAcceptance>false</requireLicenseAcceptance>
   <description>A library which supports DOM and JsonSchema.</description>
-  <releaseNotes>Initial version</releaseNotes>
   <copyright>Copyright Adrian Macal 2016</copyright>    
   <tags>json dom schema</tags>
   @dependencies@
